@@ -9,4 +9,4 @@ Voici mon bureau.
 
 ![Mon bureau](bureau.png)
 
-Le reste de l'article.
+Le reste de l'article, révisé le 20 octobre.
