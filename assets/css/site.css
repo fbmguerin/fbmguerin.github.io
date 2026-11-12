@@ -97,6 +97,7 @@ main:focus { outline: none; }
 
 .nom {
   font-weight: 500;
+  white-space: nowrap;
   text-decoration: none;
 }
 
@@ -203,7 +204,8 @@ main { padding-block: 32px 48px; }
   font-size: 13px;
   text-decoration: none;
 }
-a.pastille:hover { color: var(--ac); }
+.tag { display: inline-flex; align-items: center; text-decoration: none; }
+.tag:hover .pastille { color: var(--ac); }
 
 /* ---- Article ---- */
 .retour {
@@ -314,7 +316,9 @@ tbody tr:last-child td { border-bottom: 0; }
   .icone { width: 44px; height: 44px; }
   .tags button { min-height: 44px; }
   article h1 { font-size: 32px; }
-  .retour, .infos .pastille, .voisins a, .pied a {
+  .barre .conteneur { gap: 8px; }
+  .barre nav { gap: 0; margin-right: -10px; }
+  .nom, .retour, .tag, .voisins a, .pied a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
