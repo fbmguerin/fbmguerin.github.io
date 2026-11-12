@@ -105,7 +105,8 @@ main:focus { outline: none; }
     gap: 16px;
     height: 100%;
   }
-  & nav { display: flex; gap: 4px; }
+  /* Marge négative : le dessin des icônes (18 px centré dans 40 px) s'aligne sur le bord droit du contenu */
+  & nav { display: flex; gap: 4px; margin-right: -11px; }
 }
 
 .nom {
@@ -164,7 +165,7 @@ main { padding-block: 32px 48px; }
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;   /* = gap de la grille */
 
   & button {
     min-height: 40px;
@@ -240,9 +241,16 @@ main { padding-block: 32px 48px; }
 
 .tag:hover .pastille { text-decoration: underline; }
 
+/* Dernier élément d'un bloc : pas de marge basse (bas de page identique partout) */
+.conteneur > :last-child, .corps > :last-child { margin-bottom: 0; }
+
+/* Paragraphe hors article (404) : mêmes marges que dans le corps */
+.conteneur > p { max-width: 66ch; margin: 0 0 16px; }
+
 /* ---- Article ---- */
 .retour {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   margin-bottom: 24px;
   color: var(--tx3);
   font-size: 14px;
@@ -329,8 +337,7 @@ tbody tr:last-child td { border-bottom: 0; }
   border-top: 1px solid var(--line);
 
   & h2 { margin: 0 0 12px; font-size: 18px; font-weight: 500; }
-  & ul { margin: 0; padding: 0; list-style: none; }
-  & li { margin: 4px 0; }
+  & ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
   & a { text-decoration-color: var(--line); }
   & a:hover { color: var(--ac); }
   & time { margin-left: 8px; color: var(--tx3); font-size: 14px; }
@@ -345,7 +352,7 @@ tbody tr:last-child td { border-bottom: 0; }
   .tags button { min-height: 44px; }
   main h1 { font-size: 32px; }
   .barre .conteneur { gap: 8px; }
-  .barre nav { gap: 0; margin-right: -10px; }
+  .barre nav { gap: 0; margin-right: -13px; }   /* (44 − 18) / 2 */
   .nom, .retour, .tag, .voisins a {
     display: inline-flex;
     align-items: center;
