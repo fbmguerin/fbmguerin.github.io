@@ -1,0 +1,12 @@
+---
+layout: default
+---
+<article>
+<h1>{{ page.title }}</h1>
+<p>Publié le <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+{%- assign revision = page.last_modified_at | date: "%Y-%m-%d" -%}
+{%- assign publication = page.date | date: "%Y-%m-%d" -%}
+{%- if revision > publication %} · révisé le <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ revision }}</time>{% endif %}</p>
+<p>{% for t in page.tags %}<span class="tag">{{ t }}</span> {% endfor %}</p>
+{{ content }}
+</article>

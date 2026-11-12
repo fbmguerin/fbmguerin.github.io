@@ -1,0 +1,26 @@
+title: fbmguerin
+url: https://fbmguerin.github.io
+lang: fr
+timezone: Europe/Paris
+
+# Les articles forment une collection. Jekyll impose le préfixe « _ » :
+# le dossier est donc _articles/ et non articles/ (contournement n° 1).
+collections:
+  articles:
+    output: true
+    permalink: /articles/:path/   # corrigé pour les index.md par _plugins/ (contournement n° 2)
+
+defaults:
+  - scope: { path: "", type: articles }
+    values: { layout: article }
+
+plugins:
+  - jekyll-feed
+  - jekyll-last-modified-at
+
+feed:
+  collections:
+    articles:
+      path: /feed.xml   # flux des articles (au lieu des « posts » par défaut)
+
+exclude: [README.md, LICENSE, docs, admin-src, Gemfile, Gemfile.lock, vendor]

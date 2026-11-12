@@ -1,0 +1,34 @@
+---
+layout: default
+---
+{%- comment -%}
+Articles épinglés d'abord (si epingle_jusqu_au n'est pas dépassée à la date de construction),
+puis les autres du plus récent au plus ancien. data-tags sert au futur filtre JavaScript.
+{%- endcomment -%}
+{%- assign aujourdhui = site.time | date: "%Y-%m-%d" -%}
+{%- assign tous = site.articles | sort: "date" | reverse -%}
+{%- assign epingles = "" | split: "" -%}
+{%- assign autres = "" | split: "" -%}
+{%- for a in tous -%}
+  {%- assign actif = false -%}
+  {%- if a.epingle == true -%}
+    {%- if a.epingle_jusqu_au -%}
+      {%- assign fin = a.epingle_jusqu_au | date: "%Y-%m-%d" -%}
+      {%- if fin >= aujourdhui %}{% assign actif = true %}{% endif -%}
+    {%- else -%}{%- assign actif = true -%}{%- endif -%}
+  {%- endif -%}
+  {%- if actif -%}{%- assign epingles = epingles | push: a -%}{%- else -%}{%- assign autres = autres | push: a -%}{%- endif -%}
+{%- endfor -%}
+{%- assign liste = epingles | concat: autres -%}
+<h1>{{ site.title }}</h1>
+<ul id="articles">
+{%- for a in liste %}
+  {%- assign est_epingle = epingles | where: "url", a.url | size %}
+  <li data-tags="{{ a.tags | join: ' ' | escape }}" data-date="{{ a.date | date: '%Y-%m-%d' }}"{% if est_epingle > 0 %} data-epingle{% endif %}{% if a.lang %} lang="{{ a.lang }}"{% endif %}>
+    <a href="{{ a.url | relative_url }}">{{ a.title }}</a>
+    <time datetime="{{ a.date | date: '%Y-%m-%d' }}">{{ a.date | date: "%Y-%m-%d" }}</time>
+    {% for t in a.tags %}<span class="tag">{{ t }}</span> {% endfor %}
+    <p>{% if a.resume %}{{ a.resume | escape }}{% else %}{{ a.excerpt | strip_html | normalize_whitespace | truncate: 160, "…" }}{% endif %}</p>
+  </li>
+{%- endfor %}
+</ul>
