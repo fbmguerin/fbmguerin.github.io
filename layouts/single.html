@@ -1,0 +1,38 @@
+{{ define "main" }}
+<div class="conteneur etroit">
+<a class="retour" href="{{ site.Home.RelPermalink }}">Retour à l'accueil</a>
+<article>
+<h1>{{ .Title }}</h1>
+<p class="infos">
+<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01" }}</time>
+{{- $publie := partial "date-paris.html" .Date }}
+{{- $revise := partial "date-paris.html" .Lastmod }}
+{{- if gt $revise $publie }}
+<span>Révisé le <time datetime="{{ $revise }}">{{ (time.AsTime $revise).Format "02/01/2006" }}</time></span>
+{{- end }}
+{{- range partial "tags.html" . }}
+<a class="pastille" href="{{ site.Home.RelPermalink }}#{{ . }}">{{ . }}</a>
+{{- end }}
+</p>
+<div class="corps">
+{{ .Content }}
+</div>
+</article>
+{{- /* Même tag : cinq articles au plus partageant un tag, hors celui-ci, du plus récent au plus ancien. */ -}}
+{{- $tags := partial "tags.html" . -}}
+{{- $voisins := slice -}}
+{{- range (where site.RegularPages "Section" "articles").ByDate.Reverse -}}
+  {{- if and (ne . $) (lt (len $voisins) 5) (intersect $tags (partial "tags.html" .)) }}{{ $voisins = $voisins | append . }}{{ end -}}
+{{- end }}
+{{- with $voisins }}
+<section class="voisins" aria-labelledby="meme-tag">
+<h2 id="meme-tag">Même tag</h2>
+<ul>
+{{- range . }}
+<li><a href="{{ .RelPermalink }}">{{ .Title }}</a> <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01" }}</time></li>
+{{- end }}
+</ul>
+</section>
+{{- end }}
+</div>
+{{ end }}

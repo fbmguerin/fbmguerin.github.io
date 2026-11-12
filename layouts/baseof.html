@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="{{ .Params.lang | default site.Language.Lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>try{var c=localStorage.getItem("color-scheme");if(c==="light"||c==="dark")document.querySelector('meta[name="color-scheme"]').content=c}catch(e){}</script>
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+{{- with .Description | default (and .IsPage (partial "resume.html" .)) }}
+<meta name="description" content="{{ . }}">
+{{- end }}
+{{- $css := resources.Get "css/site.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- with site.Home.OutputFormats.Get "atom" }}
+<link rel="alternate" type="application/atom+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
+{{- end }}
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+{{- range slice "theme" "filter" }}
+{{- if or (eq . "theme") $.IsHome }}
+{{- with resources.Get (printf "js/%s.js" .) }}{{ with . | minify | fingerprint }}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+{{- end }}{{ end }}
+{{- end }}
+{{- end }}
+</head>
+<body>
+<a class="evitement" href="#contenu">Aller au contenu</a>
+{{ partial "barre.html" . }}
+<main id="contenu" tabindex="-1">
+{{ block "main" . }}{{ end }}
+</main>
+<footer class="pied">
+<div class="conteneur{{ if .IsPage }} etroit{{ end }}">
+{{- if .IsPage }}
+<a href="{{ site.Params.depot }}/edit/main/content/{{ .File.Path }}">Modifier cette page</a>
+{{- end }}
+<a href="{{ site.Params.depot }}">Source du site</a>
+</div>
+</footer>
+</body>
+</html>

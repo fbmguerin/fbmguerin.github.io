@@ -1,0 +1,13 @@
+{{- $p := .page -}}
+<li data-tags="{{ delimit (partial "tags.html" $p) " " }}"{{ if .epingle }} data-pinned{{ end }}{{ with $p.Params.lang }} lang="{{ . }}"{{ end }}>
+<a class="carte" href="{{ $p.RelPermalink }}">
+<h2>{{ $p.Title }}</h2>
+<p>{{ partial "resume.html" $p }}</p>
+<span class="bas">
+<time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006-01" }}</time>
+{{- range partial "tags.html" $p }}
+<span class="pastille">{{ . }}</span>
+{{- end }}
+</span>
+</a>
+</li>

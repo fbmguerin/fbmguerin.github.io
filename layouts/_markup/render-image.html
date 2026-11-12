@@ -1,0 +1,10 @@
+{{- $img := .Page.Resources.Get .Destination -}}
+{{- $src := cond (ne $img nil) $img.RelPermalink .Destination -}}
+{{- $taille := "" -}}
+{{- with $img }}{{ if and (eq .ResourceType "image") (ne .MediaType.SubType "svg") }}{{ $taille = printf ` width="%d" height="%d"` .Width .Height }}{{ end }}{{ end -}}
+{{- $balise := printf `<img src="%s" alt="%s"%s>` $src .PlainText $taille -}}
+{{- if .IsBlock -}}
+<figure>{{ $balise | safeHTML }}{{ with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>
+{{- else -}}
+{{ $balise | safeHTML }}
+{{- end -}}

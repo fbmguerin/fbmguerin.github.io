@@ -29,5 +29,5 @@ disableKinds = ["taxonomy", "term", "section", "rss", "sitemap", "robotstxt"]
   baseName = "atom"
   rel = "alternate"
 [outputs]
-  home = ["html", "atom"]
+  home = ["html"]
   page = ["html"]
