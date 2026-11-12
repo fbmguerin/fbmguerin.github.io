@@ -1,6 +1,6 @@
 baseURL = "https://fbmguerin.github.io/"
 title = "fbmguerin"
-languageCode = "fr"
+locale = "fr"
 defaultContentLanguage = "fr"
 timeZone = "Europe/Paris"
 enableGitInfo = true            # .Lastmod = date du dernier commit qui touche le fichier

@@ -1,13 +1,14 @@
 {{- /* Articles publiés : épinglés actifs d'abord (epingle_jusqu_au non dépassée à la date
        de construction), puis les autres du plus récent au plus ancien. */ -}}
-{{- $aujourdhui := now | time.Format "2006-01-02" -}}
 {{- $epingles := slice -}}
 {{- $autres := slice -}}
 {{- range (where site.RegularPages "Section" "articles").ByDate.Reverse -}}
   {{- $actif := false -}}
   {{- if .Params.epingle -}}
     {{- with .Params.epingle_jusqu_au -}}
-      {{- if ge (time.Format "2006-01-02" .) $aujourdhui }}{{ $actif = true }}{{ end -}}
+      {{- /* fin = lendemain 00:00, dans le fuseau du site (timeZone) */ -}}
+      {{- $fin := (time.AsTime (time.Format "2006-01-02" .)).AddDate 0 0 1 -}}
+      {{- if now.Before $fin }}{{ $actif = true }}{{ end -}}
     {{- else -}}{{- $actif = true -}}{{- end -}}
   {{- end -}}
   {{- if $actif }}{{ $epingles = $epingles | append . }}{{ else }}{{ $autres = $autres | append . }}{{ end -}}

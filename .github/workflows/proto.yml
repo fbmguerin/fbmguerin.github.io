@@ -1,0 +1,52 @@
+# Vérification du prototype dans GitHub Actions (aucun déploiement).
+# Compare un clone complet (fetch-depth: 0) et un clone superficiel (fetch-depth: 1)
+# et simule des dates de construction (--clock) pour l'expiration des épingles.
+name: Prototype Hugo
+
+on:
+  push:
+    branches: ["proto/hugo"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  HUGO_VERSION: "0.169.0"
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fetch-depth: [0, 1]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: ${{ matrix.fetch-depth }}
+      - name: Installer Hugo
+        run: |
+          curl -sSLo "$RUNNER_TEMP/hugo.deb" \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-amd64.deb"
+          sudo dpkg -i "$RUNNER_TEMP/hugo.deb"
+      - run: hugo --gc --minify --destination _site
+      - name: Résultats
+        run: |
+          echo "== Fichiers produits"; find _site -type f | sort
+          echo "== Révision de swarf-os (point 5)"; grep -oE 'Publié le.*</p>' _site/articles/swarf-os/index.html
+          echo "== Flux (point 6)"; grep -oE '<entry[^>]*>|<title>[^<]*|<updated>[^<]*' _site/feed.xml
+          echo "== Accueil (points 7 et 8)"; grep -oE '<li [^>]*>' _site/index.html
+      - name: Épingle à des dates simulées
+        if: matrix.fetch-depth == 0
+        run: |
+          for c in 2026-10-25T12:00:00+02:00 2026-11-01T22:30:00Z 2026-11-01T23:30:00Z; do
+            echo "== --clock $c"; hugo --quiet --clock "$c" --destination "/tmp/s-$c"
+            grep -oE '<li [^>]*>' "/tmp/s-$c/index.html"
+          done
+      - name: Construire /admin/ (Sveltia, npm)
+        if: matrix.fetch-depth == 0
+        working-directory: admin-src
+        run: |
+          npm ci --no-audit --no-fund
+          npx vite build --outDir ../_site/admin --emptyOutDir --logLevel warn
+          ls ../_site/admin && du -sh ../_site/admin

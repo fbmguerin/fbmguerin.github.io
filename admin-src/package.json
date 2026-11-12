@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "type": "module",
+  "description": "Sveltia CMS compilé et servi par le site (aucun CDN). Sortie : _site/admin/",
+  "scripts": {
+    "build": "vite build --outDir ../_site/admin --emptyOutDir"
+  },
+  "dependencies": {
+    "@sveltia/cms": "0.264.0"
+  },
+  "devDependencies": {
+    "vite": "^7.3.0"
+  }
+}
