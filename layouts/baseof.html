@@ -29,13 +29,6 @@
 <main id="contenu" tabindex="-1">
 {{ block "main" . }}{{ end }}
 </main>
-<footer class="pied">
-<div class="conteneur{{ if .IsPage }} etroit{{ end }}">
-{{- if .IsPage }}
-<a href="{{ site.Params.depot }}/edit/main/content/{{ .File.Path }}">Modifier cette page</a>
-{{- end }}
-<a href="{{ site.Params.depot }}">Source du site</a>
-</div>
-</footer>
+<footer class="pied"></footer>
 </body>
 </html>

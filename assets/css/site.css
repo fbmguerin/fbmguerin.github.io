@@ -141,8 +141,6 @@ main { padding-block: 32px 48px; }
   & > li { display: grid; min-width: 0; }
   & > li[hidden] { display: none; }
 }
-.epingles { margin-bottom: 24px; }
-
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -303,14 +301,8 @@ tbody tr:last-child td { border-bottom: 0; }
   & time { margin-left: 8px; color: var(--tx3); font-size: 14px; }
 }
 
-/* ---- Pied de page ---- */
-.pied {
-  border-top: 1px solid var(--line);
-
-  & .conteneur { display: flex; flex-wrap: wrap; gap: 8px 24px; padding-block: 24px; }
-  & a { color: var(--tx2); font-size: 14px; text-decoration-color: var(--line); }
-  & a:hover { color: var(--ac); }
-}
+/* ---- Pied de page (vide, sans filet) ---- */
+.pied { min-height: 48px; }
 
 /* ---- Mobile : un seul point de rupture ---- */
 @media (max-width: 600px) {
@@ -319,7 +311,7 @@ tbody tr:last-child td { border-bottom: 0; }
   main h1 { font-size: 32px; }
   .barre .conteneur { gap: 8px; }
   .barre nav { gap: 0; margin-right: -10px; }
-  .nom, .retour, .tag, .voisins a, .pied a {
+  .nom, .retour, .tag, .voisins a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
