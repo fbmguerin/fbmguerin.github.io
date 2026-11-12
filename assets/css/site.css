@@ -236,6 +236,9 @@ main { padding-block: 32px 48px; }
   text-decoration: none;
 }
 .tag { display: inline-flex; align-items: center; text-decoration: none; }
+/* Date de la page d'article : posée sur le fond de page, pas sur une carte */
+.infos time.pastille { background: var(--card); }
+
 .tag:hover .pastille { text-decoration: underline; }
 
 /* ---- Article ---- */

@@ -1,10 +1,9 @@
-# Construit et déploie le site sur GitHub Pages.
+# Construit le site avec Hugo et le déploie sur GitHub Pages.
 #
-# - Ne déploie que la branche main (les branches proto/* ne sont jamais déployées).
+# - Ne déploie que la branche main.
 # - Reconstruction quotidienne : nécessaire pour que les épingles expirent
 #   (epingle_jusqu_au est comparé à la date de construction).
-# - Le générateur (Hugo ou Jekyll) est détecté d'après le fichier de configuration
-#   présent à la racine ; tant qu'aucun n'est choisi, rien n'est déployé.
+# - Sveltia CMS (/admin/) est un simple fichier statique : rien à construire.
 
 name: Pages
 
@@ -26,79 +25,35 @@ concurrency:
 
 env:
   HUGO_VERSION: "0.169.0"
-  RUBY_VERSION: "3.3"
-  NODE_VERSION: "22"
 
 jobs:
   build:
     # Garde-fou : workflow_dispatch peut viser n'importe quelle branche.
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    outputs:
-      generator: ${{ steps.detect.outputs.generator }}
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # historique complet : dates de révision tirées de git
 
-      - id: detect
-        name: Détecter le générateur
-        run: |
-          if [ -f hugo.toml ]; then g=hugo
-          elif [ -f _config.yml ]; then g=jekyll
-          else g=none; echo "::notice::Aucun générateur configuré : rien à déployer."
-          fi
-          echo "generator=$g" >> "$GITHUB_OUTPUT"
-
       - id: pages
-        if: steps.detect.outputs.generator != 'none'
         uses: actions/configure-pages@v6
 
-      # --- Hugo ---
       - name: Installer Hugo
-        if: steps.detect.outputs.generator == 'hugo'
         run: |
           curl -sSLo "$RUNNER_TEMP/hugo.deb" \
             "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-amd64.deb"
           sudo dpkg -i "$RUNNER_TEMP/hugo.deb"
-      - name: Construire (Hugo)
-        if: steps.detect.outputs.generator == 'hugo'
+
+      - name: Construire
         run: hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/" --destination _site
 
-      # --- Jekyll ---
-      - name: Installer Ruby
-        if: steps.detect.outputs.generator == 'jekyll'
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ env.RUBY_VERSION }}
-          bundler-cache: true
-      - name: Construire (Jekyll)
-        if: steps.detect.outputs.generator == 'jekyll'
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
-        env:
-          JEKYLL_ENV: production
-
-      # --- Sveltia CMS (/admin/), servi depuis le site, sans CDN ---
-      - name: Installer Node
-        if: steps.detect.outputs.generator != 'none' && hashFiles('admin-src/package-lock.json') != ''
-        uses: actions/setup-node@v7
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-          cache-dependency-path: admin-src/package-lock.json
-      - name: Construire /admin/
-        if: steps.detect.outputs.generator != 'none' && hashFiles('admin-src/package-lock.json') != ''
-        working-directory: admin-src
-        run: npm ci && npx vite build --outDir ../_site/admin --emptyOutDir
-
-      - if: steps.detect.outputs.generator != 'none'
-        uses: actions/upload-pages-artifact@v5
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
   deploy:
     needs: build
-    if: needs.build.outputs.generator != 'none'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

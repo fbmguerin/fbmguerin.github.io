@@ -1,10 +1,10 @@
+{{- /* Image d'article. Ressource du dossier si elle existe (avec ses dimensions,
+       sauf SVG), sinon l'adresse telle quelle (image externe). Seule dans son
+       paragraphe : <figure>, avec <figcaption> si un titre est donné. */ -}}
 {{- $img := .Page.Resources.Get .Destination -}}
-{{- $src := cond (ne $img nil) $img.RelPermalink .Destination -}}
-{{- $taille := "" -}}
-{{- with $img }}{{ if and (eq .ResourceType "image") (ne .MediaType.SubType "svg") }}{{ $taille = printf ` width="%d" height="%d"` .Width .Height }}{{ end }}{{ end -}}
-{{- $balise := printf `<img src="%s" alt="%s"%s>` $src .PlainText $taille -}}
-{{- if .IsBlock -}}
-<figure>{{ $balise | safeHTML }}{{ with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>
-{{- else -}}
-{{ $balise | safeHTML }}
-{{- end -}}
+{{- $src := .Destination -}}
+{{- with $img }}{{ $src = .RelPermalink }}{{ else }}{{ if not (strings.Contains $src "://") }}{{ warnf "%s : image introuvable dans le dossier de l'article : %s" .Page.File.Path $src }}{{ end }}{{ end -}}
+{{- if .IsBlock }}<figure>{{ end -}}
+<img src="{{ $src }}" alt="{{ .PlainText }}"
+{{- with $img }}{{ if and (eq .ResourceType "image") (ne .MediaType.SubType "svg") }} width="{{ .Width }}" height="{{ .Height }}"{{ end }}{{ end }}>
+{{- if .IsBlock }}{{ with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>{{ end -}}

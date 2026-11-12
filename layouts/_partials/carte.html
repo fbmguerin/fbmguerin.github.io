@@ -4,7 +4,7 @@
 <h2>{{ $p.Title }}</h2>
 <p>{{ partial "resume.html" $p }}</p>
 <span class="bas">
-<time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006-01" }}</time>
+<time class="pastille" datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006-01" }}</time>
 {{- range partial "tags.html" $p }}
 <span class="pastille {{ partial "tag-couleur.html" . }}">{{ . }}</span>
 {{- end }}
