@@ -41,6 +41,7 @@ body {
 }
 
 a { color: inherit; }
+strong, b { font-weight: 500; }
 
 :focus-visible {
   outline: 2px solid var(--ac);
@@ -218,7 +219,7 @@ main { padding-block: 32px 48px; }
   &:hover { color: var(--ac); }
 }
 
-article h1 {
+main h1 {
   margin: 0 0 12px;
   font-size: 40px;
   line-height: 1.1;
@@ -315,7 +316,7 @@ tbody tr:last-child td { border-bottom: 0; }
 @media (max-width: 600px) {
   .icone { width: 44px; height: 44px; }
   .tags button { min-height: 44px; }
-  article h1 { font-size: 32px; }
+  main h1 { font-size: 32px; }
   .barre .conteneur { gap: 8px; }
   .barre nav { gap: 0; margin-right: -10px; }
   .nom, .retour, .tag, .voisins a, .pied a {
