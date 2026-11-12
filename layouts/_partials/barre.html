@@ -14,7 +14,7 @@
 {{- with site.Home.OutputFormats.Get "atom" }}
 <a class="icone" href="{{ .RelPermalink }}" aria-label="Flux Atom">{{ partial "icone.html" "rss" }}</a>
 {{- end }}
-<a class="icone" href="mailto:{{ site.Params.email }}" aria-label="Courriel">{{ partial "icone.html" "courriel" }}</a>
+<button class="icone" type="button" aria-label="Courriel" data-courriel="{{ partial "courriel-code.html" }}" hidden>{{ partial "icone.html" "courriel" }}</button>
 <button class="icone" id="theme" type="button" aria-label="Thème sombre" aria-pressed="false" hidden>{{ partial "icone.html" "lune" }}{{ partial "icone.html" "soleil" }}</button>
 </nav>
 </div>

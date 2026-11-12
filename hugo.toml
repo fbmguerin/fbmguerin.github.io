@@ -10,7 +10,11 @@ disableKinds = ["taxonomy", "term", "section", "rss", "sitemap", "robotstxt"]
   articles = "/articles/:contentbasename/"   # nom du dossier, pas le titre (voir README)
 
 [params]
-  email = "francoisguerin@ikmail.com"
+  # Adresse courriel en deux morceaux : jamais écrite en entier, ni dans le dépôt ni
+  # dans les pages. Les pages n'en portent qu'une forme encodée, que courriel.js
+  # ne décode qu'au clic (voir README, « Adresse courriel »).
+  courriel_nom = "francoisguerin+fromfbmgsite"
+  courriel_domaine = "ikmail.com"
   github = "fbmguerin"                                   # lien GitHub de la barre
   # Avatar de la barre, chargé directement chez GitHub (par identifiant de compte :
   # survit à un renommage ; s=64 pour un affichage net en 32 px). Toujours l'avatar actuel.
