@@ -1,0 +1,23 @@
+{{- /* Articles publiés, du plus récent au plus ancien (date de publication).
+       Épinglé actif : epingle: true et epingle_jusqu_au absente ou pas encore dépassée,
+       à l'heure de Paris. Au plus deux épinglés (les plus récents) ; les autres
+       retombent dans le fil. Un épinglé n'est jamais aussi dans le fil. */ -}}
+{{- $epingles := slice -}}
+{{- $fil := slice -}}
+{{- range (where site.RegularPages "Section" "articles").ByDate.Reverse -}}
+  {{- $actif := false -}}
+  {{- if .Params.epingle -}}
+    {{- with .Params.epingle_jusqu_au -}}
+      {{- /* fin = lendemain 00:00 dans le fuseau du site : `now | time.Format`
+             raisonne en UTC, on compare donc deux instants (cf. docs/verification.md §8). */ -}}
+      {{- $fin := (time.AsTime (time.Format "2006-01-02" .)).AddDate 0 0 1 -}}
+      {{- if now.Before $fin }}{{ $actif = true }}{{ end -}}
+    {{- else -}}{{- $actif = true -}}{{- end -}}
+  {{- end -}}
+  {{- if and $actif (lt (len $epingles) 2) -}}
+    {{- $epingles = $epingles | append . -}}
+  {{- else -}}
+    {{- $fil = $fil | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- return dict "epingles" $epingles "fil" $fil -}}

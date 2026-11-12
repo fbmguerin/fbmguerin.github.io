@@ -1,0 +1,10 @@
+{{- /* resume, sinon premier paragraphe non vide, sans Markdown ni HTML,
+       coupé à ~160 caractères à la fin d'un mot, avec « … » si coupé. */ -}}
+{{- $r := .Params.resume -}}
+{{- if not $r -}}
+  {{- range findRE `(?s)<p>.*?</p>` .Content -}}
+    {{- $t := trim (. | plainify | htmlUnescape) " \n" -}}
+    {{- if and (not $r) $t }}{{ $r = $t | replaceRE `\s+` " " }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (truncate 160 "…" $r) -}}

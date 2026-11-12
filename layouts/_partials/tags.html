@@ -1,0 +1,8 @@
+{{- /* Tags normalisés : minuscules, espaces remplacées par des tirets, sans doublon.
+       Un tag est un mot simple (data-tags les sépare par des espaces, l'adresse /#tag). */ -}}
+{{- $t := slice -}}
+{{- range .Params.tags | default slice -}}
+  {{- $n := . | string | lower | strings.TrimSpace | replaceRE `\s+` "-" -}}
+  {{- if and $n (not (in $t $n)) }}{{ $t = $t | append $n }}{{ end -}}
+{{- end -}}
+{{- return $t -}}

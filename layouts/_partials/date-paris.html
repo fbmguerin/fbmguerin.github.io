@@ -1,0 +1,6 @@
+{{- /* Jour (AAAA-MM-JJ) d'un instant à l'heure du site (timeZone), quel que soit le
+       fuseau de l'instant : une date git porte celui du commit, et time.Format ne
+       convertit pas. Décalage = heure UTC lue comme heure locale du site. */ -}}
+{{- $u := .UTC -}}
+{{- $decalage := $u.Sub (time.AsTime ($u.Format "2006-01-02T15:04:05")) -}}
+{{- return ($u.Add $decalage).Format "2006-01-02" -}}
