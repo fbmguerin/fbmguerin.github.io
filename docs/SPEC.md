@@ -128,7 +128,7 @@ Un seul fichier CSS. Toutes les couleurs sont définies **une seule fois** avec 
 | `--tx3` texte discret | `#57575d` | `#90909a` |
 | `--ac` accent | `#1a5fb4` | `#8fbaf0` |
 
-- Police : `system-ui, sans-serif` pour tout, `ui-monospace, monospace` pour le code uniquement. **Aucune police ni ressource externe.**
+- Police : `system-ui, sans-serif` pour tout, `ui-monospace, monospace` pour le code uniquement. **Aucune police ni ressource externe**, sauf l'avatar GitHub de la barre (servi par GitHub, comme le site).
 - Texte courant : 17 px/1,6, graisse 400. Graisses utilisées : 400 et 500 seulement.
 - **Interdit, partout** : `border-radius` (toujours 0), `box-shadow`, `text-shadow`, `backdrop-filter`, `filter`, toute couleur avec transparence (`rgba`, `opacity` < 1, `#rrggbbaa`), dégradés, animations. Le survol change une couleur, instantanément. Vérifie par recherche dans le CSS compilé.
 - Focus clavier : contour de 2 px `--ac`, décalage de 2 px, sur tous les éléments interactifs.
@@ -258,7 +258,7 @@ Corps : stage de Terminale à la préfecture de la Moselle, à Metz (septembre-o
 
 À vérifier et à consigner dans la description de la pull request :
 - Le build passe en local et dans Actions ; le site déployé répond à `https://fbmguerin.github.io/`.
-- Aucune requête externe depuis les pages publiques (contrôle dans le panneau réseau). `/admin/` fait exception.
+- Aucune requête externe depuis les pages publiques (contrôle dans le panneau réseau). `/admin/` et l'avatar GitHub (`avatars.githubusercontent.com`) font exception.
 - Aucun `border-radius`, `box-shadow`, `backdrop-filter`, `filter`, dégradé, animation ni transparence dans le CSS compilé.
 - 360 px : aucun défilement horizontal sur l'accueil et sur chaque article de test.
 - Navigation complète au clavier, focus visible.
