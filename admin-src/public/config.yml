@@ -21,7 +21,7 @@ collections:
     label: Articles
     label_singular: Article
     folder: _articles
-    path: '{{slug}}/index'   # un article = un dossier
+    path: '{{slug}}/index'   # tout article est un dossier : <nom>/index.md
     media_folder: ''         # images rangées dans le dossier de l'article…
     public_folder: ''        # …et référencées sans chemin : ![légende](bureau.png)
     create: true
@@ -36,10 +36,3 @@ collections:
       - { name: epingle_jusqu_au, label: "Épinglé jusqu'au", widget: datetime, type: date, input_timezone: utc, required: false }
       - { name: lang, label: Langue, widget: select, options: [fr, en], required: false, hint: "Vide = français." }
       - { name: body, label: Texte, widget: markdown }
-
-  - name: notes
-    label: Notes (fichier unique)
-    label_singular: Note
-    folder: _articles        # articles/<nom>.md, sans image
-    create: true
-    fields: *champs
