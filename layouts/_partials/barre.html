@@ -1,13 +1,8 @@
 <header class="barre">
 <div class="conteneur">
-{{- $avatar := "" -}}
-{{- with site.Params.github -}}
-  {{- with try (resources.GetRemote (printf "https://avatars.githubusercontent.com/%s?s=128" .)) -}}
-    {{- with .Err }}{{ warnf "Avatar GitHub indisponible : %s" . }}{{ else }}{{ with .Value }}{{ $avatar = .Fill "64x64" }}{{ end }}{{ end -}}
-  {{- end -}}
-{{- end }}
+{{- $avatar := site.Params.avatar }}
 <a class="nom{{ with $avatar }} avec-avatar{{ end }}" href="{{ site.Home.RelPermalink }}">
-{{- with $avatar }}<img src="{{ .RelPermalink }}" alt="" width="32" height="32">{{ end -}}
+{{- with $avatar }}<img src="{{ . }}" alt="" width="32" height="32">{{ end -}}
 <span>{{ site.Title }}</span></a>
 <nav aria-label="Liens">
 <a class="icone" href="https://github.com/{{ site.Params.github }}" aria-label="GitHub">
