@@ -1,7 +1,11 @@
 ---
 title: Stage au SIDSIC de la Moselle
 date: 2026-10-16
-tags: [stage, linux]
+tags:
+  - expérience
+  - linux
+draft: false
+epingle: false
 ---
 
 Stage de Terminale à la préfecture de la Moselle, à Metz (septembre-octobre 2026).
