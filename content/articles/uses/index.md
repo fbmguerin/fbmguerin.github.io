@@ -17,7 +17,7 @@ epingle: false
 
 ## Matériel
 
-- **Intel NUC** : ma machine desktop avec deux SSD (128 Go et 200 Go).
+- **Intel NUC** : ma machine desktop avec deux SSD (128 Go et 200 Go) et 16 Go de DDR4.
     - **Écran** : random iiyama, il faut d'ailleurs que je le remplace
     - **Clavier** : random sapin de Noël mécanique "Cerberus". A remplacer aussi, il se salit trop vite et c'est un très chronophage à nettoyer. Filaire.
     - **Souris** : Lenovo filaire. Idéalement je voudrais un clavier filaire et une souris sans fil...
@@ -43,8 +43,9 @@ Oui, je suis un fan de KDE. C'est loin d'être parfait niveau UI, mais c'est tr�
 - **Forge** : Github pour le moment. J'espère pouvoir monter ma propre instance de Forgejo quand j'enaurais les moyens, là aussi.
 
 ## Loisirs
+
 - **Films & Séries** : Crunchyroll épicétout. 3 € par mois, merci spliiit #radinmalin.
 - **Jeux navigateur** : [Openfront](https://github.com/openfrontio/OpenFrontIO), les jeux de [SoftBear](https://github.com/SoftbearStudios), [Voxiom](https://voxiom.io/)...
-- **Steam** : [Team Fortress 2](https://store.steampowered.com/app/440/Team_Fortress_2/). J'adore le mode Mann *vs* machine.
+- **Steam** : [Team Fortress 2](https://store.steampowered.com/app/440/Team_Fortress_2/). J'adore le mode Mann _vs_ machine.
 
 Merci Gabe.
