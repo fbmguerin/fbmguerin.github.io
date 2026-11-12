@@ -11,7 +11,7 @@
 <span>Révisé le <time datetime="{{ $revise }}">{{ (time.AsTime $revise).Format "02/01/2006" }}</time></span>
 {{- end }}
 {{- range partial "tags.html" . }}
-<a class="tag" href="{{ site.Home.RelPermalink }}#{{ . }}"><span class="pastille">{{ . }}</span></a>
+<a class="tag" href="{{ site.Home.RelPermalink }}#{{ . }}"><span class="pastille {{ partial "tag-couleur.html" . }}">{{ . }}</span></a>
 {{- end }}
 </p>
 <div class="corps">
