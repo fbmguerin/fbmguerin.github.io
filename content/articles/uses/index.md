@@ -1,5 +1,5 @@
 ---
-title: Mon matériel
+title: Ce que j’utilise
 date: 2026-11-12
 tags:
   - perso
