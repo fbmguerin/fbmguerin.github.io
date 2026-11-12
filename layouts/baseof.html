@@ -15,7 +15,7 @@
 <link rel="alternate" type="application/atom+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
 {{- end }}
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
-{{- $scripts := slice "js/theme.js" "js/courriel.js" }}
+{{- $scripts := slice "js/theme.js" "js/courriel.js" "js/admin.js" }}
 {{- if .IsHome }}{{ $scripts = $scripts | append "js/filter.js" }}{{ end }}
 {{- range $scripts }}
 {{- with resources.Get . | minify | fingerprint }}
@@ -23,7 +23,7 @@
 {{- end }}
 {{- end }}
 </head>
-<body>
+<body data-admin="{{ "admin/" | relURL }}">
 <a class="evitement" href="#contenu">Aller au contenu</a>
 {{ partial "barre.html" . }}
 <main id="contenu" tabindex="-1">
