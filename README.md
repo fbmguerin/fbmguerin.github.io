@@ -61,6 +61,10 @@ lang: en                         # facultatif, français par défaut
 - **Épinglé** : deux au plus. S'il y en a davantage, seuls les deux plus récents (par `date`) restent en tête.
 - **Date future** : Hugo ne publie pas un article daté dans le futur avant ce jour-là (la reconstruction quotidienne le fera apparaître).
 
+### Adresses courtes (slash pages)
+
+Si le dossier d'un article porte un nom de [slash page](https://slashpages.net/) (`uses`, `now`, `wish`, `about`…), l'article est aussi joignable à l'adresse courte : `content/articles/uses/` → `fbmguerin.github.io/uses/`, qui redirige vers `/articles/uses/`. Les noms équivalents redirigent aussi (`changelog` et `log`, `links` et `bookmarks`…). La liste est dans `data/slashpages.yaml`. Un brouillon n'a pas de redirection.
+
 ### Dates de révision
 
 La date « Révisé le » d'une page vient du dernier commit qui touche son `index.md` (il faut donc l'historique complet, `fetch-depth: 0` dans le workflow). Elle n'apparaît que si elle tombe un autre jour que la publication.

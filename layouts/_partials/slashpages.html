@@ -1,0 +1,15 @@
+{{- /* Redirections des slash pages (data/slashpages.yaml) : pour chaque article publié
+       dont le dossier porte un nom de la liste, écrit /<nom>/index.html (et ses
+       équivalents) qui redirige vers l'article. Appelé une fois, par l'accueil. */ -}}
+{{- range where site.RegularPages "Section" "articles" -}}
+  {{- $article := . -}}
+  {{- $nom := .File.ContentBaseName -}}
+  {{- range hugo.Data.slashpages -}}
+    {{- if in . $nom -}}
+      {{- range . -}}
+        {{- $html := printf `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>%s</title><link rel="canonical" href="%s"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=%s"></head><body><a href="%s">%s</a></body></html>` ($article.Title | htmlEscape) $article.Permalink $article.RelPermalink $article.RelPermalink ($article.Title | htmlEscape) -}}
+        {{- (resources.FromString (printf "%s/index.html" .) $html).Publish -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
