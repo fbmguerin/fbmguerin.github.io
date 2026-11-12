@@ -11,6 +11,18 @@ disableKinds = ["taxonomy", "term", "section", "rss", "sitemap", "robotstxt"]
 
 [params]
   email = "francoisguerin@ikmail.com"
+  github = "fbmguerin"                                   # lien GitHub et avatar de la barre
+  favoris = "https://github.com/fbmguerin?tab=stars"     # bouton étoile (plus tard : un article)
+
+# Couleur imposée à un tag (0 à 7, voir --t0… dans site.css). Sans entrée, chaque
+# nouveau tag prend la couleur suivante, dans l'ordre d'apparition des articles.
+[params.couleurs]
+  # linux = 0
+
+# Avatar GitHub récupéré à la construction (aucune requête externe depuis le site),
+# relu au plus une fois par jour.
+[caches.getresource]
+  maxAge = "24h"
 
 # Coloration du code par classes Chroma (palette dans assets/css/site.css).
 [markup.highlight]

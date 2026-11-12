@@ -1,0 +1,3 @@
+{{- /* Classe de couleur d'un tag (voir tags-couleurs.html). */ -}}
+{{- $c := index (partialCached "tags-couleurs.html" "site") . | default "t0" -}}
+{{- return $c -}}

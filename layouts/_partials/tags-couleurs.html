@@ -1,0 +1,16 @@
+{{- /* Couleur de chaque tag (t0 à t7), dans l'ordre d'apparition : en parcourant les
+       articles du plus ancien au plus récent, chaque nouveau tag prend la couleur suivante.
+       Un tag ajouté plus tard ne change donc pas la couleur des autres.
+       params.couleurs impose une couleur (0 à 7) à un tag. Appelé via partialCached. */ -}}
+{{- $couleurs := dict -}}
+{{- $i := 0 -}}
+{{- range (where site.RegularPages "Section" "articles").ByDate -}}
+  {{- range partial "tags.html" . -}}
+    {{- if not (isset $couleurs .) -}}
+      {{- $n := index site.Params.couleurs . -}}
+      {{- if eq $n nil }}{{ $n = mod $i 8 }}{{ $i = add $i 1 }}{{ end -}}
+      {{- $couleurs = merge $couleurs (dict . (printf "t%d" (int $n))) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $couleurs -}}

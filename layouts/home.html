@@ -14,7 +14,7 @@
 <nav class="tags" aria-label="Filtrer par tag" hidden>
 <button type="button" data-tag="" aria-pressed="true">tout <span class="nb">{{ len ($liste.epingles | append $liste.fil) }}</span></button>
 {{- range . }}
-<button type="button" data-tag="{{ .tag }}" aria-pressed="false">{{ .tag }} <span class="nb">{{ .n }}</span></button>
+<button type="button" class="{{ partial "tag-couleur.html" .tag }}" data-tag="{{ .tag }}" aria-pressed="false">{{ .tag }} <span class="nb">{{ .n }}</span></button>
 {{- end }}
 </nav>
 {{- end }}

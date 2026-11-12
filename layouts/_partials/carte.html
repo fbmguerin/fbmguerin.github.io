@@ -6,7 +6,7 @@
 <span class="bas">
 <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006-01" }}</time>
 {{- range partial "tags.html" $p }}
-<span class="pastille">{{ . }}</span>
+<span class="pastille {{ partial "tag-couleur.html" . }}">{{ . }}</span>
 {{- end }}
 </span>
 </a>

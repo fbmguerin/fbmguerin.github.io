@@ -1,10 +1,21 @@
 <header class="barre">
 <div class="conteneur">
-<a class="nom" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
+{{- $avatar := "" -}}
+{{- with site.Params.github -}}
+  {{- with try (resources.GetRemote (printf "https://avatars.githubusercontent.com/%s?s=128" .)) -}}
+    {{- with .Err }}{{ warnf "Avatar GitHub indisponible : %s" . }}{{ else }}{{ with .Value }}{{ $avatar = .Fill "64x64" }}{{ end }}{{ end -}}
+  {{- end -}}
+{{- end }}
+<a class="nom{{ with $avatar }} avec-avatar{{ end }}" href="{{ site.Home.RelPermalink }}">
+{{- with $avatar }}<img src="{{ .RelPermalink }}" alt="" width="32" height="32">{{ end -}}
+<span>{{ site.Title }}</span></a>
 <nav aria-label="Liens">
-<a class="icone" href="https://github.com/fbmguerin" aria-label="GitHub">
+<a class="icone" href="https://github.com/{{ site.Params.github }}" aria-label="GitHub">
 {{- with os.FileExists "static/icons/github.svg" }}{{ $svg := readFile "static/icons/github.svg" | replaceRE `<\?xml[^>]*\?>\s*` "" }}{{ replaceRE `<svg` `<svg aria-hidden="true"` $svg 1 | safeHTML }}{{ else }}<span class="manquant" aria-hidden="true"></span>{{ end -}}
 </a>
+{{- with site.Params.favoris }}
+<a class="icone" href="{{ . }}" aria-label="Favoris">{{ partial "icone.html" "etoile" }}</a>
+{{- end }}
 {{- with site.Home.OutputFormats.Get "atom" }}
 <a class="icone" href="{{ .RelPermalink }}" aria-label="Flux Atom">{{ partial "icone.html" "rss" }}</a>
 {{- end }}
