@@ -79,7 +79,7 @@ En-tête YAML. Clés sans accents (Hugo met les clés en minuscules).
 - Contenu : à gauche le nom « François Guerin » (lien vers `/`, graisse 500, sans soulignement) ; à droite quatre boutons carrés : GitHub, RSS, courriel, thème. Aucun autre lien, **aucun nom répété ailleurs dans la page**.
 - Boutons : 40×40 px (44×44 en dessous de 600 px), icône 18 px, trait de 1,5 px, couleur `--tx2`, fond transparent, au survol fond `--card` et couleur `--tx`. Même bouton pour les liens et pour la bascule du thème.
 - GitHub : le fichier `static/icons/github.svg` (logo officiel en une couleur, fourni par l'auteur) inclus en ligne, avec `fill="currentColor"`. Ne pas le déformer ni le recolorer autrement. Tant que le fichier est absent, le build ne doit pas échouer : afficher un carré en pointillés de 18 px.
-- RSS : lien vers le flux Atom. Courriel : `mailto:` vers l'adresse définie dans `hugo.toml` (`params.email`, valeur initiale `francoisguerin@ikmail.com`).
+- RSS : lien vers le flux Atom. Courriel : bouton qui ouvre la messagerie sur l'adresse définie dans `hugo.toml` (`params.courriel_nom` et `params.courriel_domaine`). L'adresse n'est jamais écrite en entier, ni dans le dépôt ni dans les pages : elles n'en portent qu'une forme encodée, que `courriel.js` décode au clic. Sans JavaScript, le bouton est masqué. Dans les articles, le shortcode `{{</* courriel */>}}` affiche un bouton « afficher l'adresse ».
 - Bascule du thème : affiche la **lune** quand le thème effectif est clair, le **soleil** quand il est sombre.
 - Un lien « Aller au contenu » visible uniquement au focus clavier, avant la barre.
 - Icônes (SVG en ligne, `viewBox="0 0 24 24"`, `fill="none"`, `stroke="currentColor"`, `stroke-width="1.5"`, `aria-hidden="true"`) :
@@ -235,7 +235,7 @@ tags: [recherche]
 epingle: true
 epingle_jusqu_au: 2027-02-19
 ```
-Corps : Élève en Terminale Bac Pro CIEL au lycée Louis de Cormontaigne, à Metz, je cherche un stage du lundi 18 janvier au vendredi 19 février 2027, idéalement sur les cinq semaines consécutives. Je peux aussi n'en faire qu'une partie : du 18 au 29 janvier, ou du 1er au 19 février. Contact : francoisguerin@ikmail.com.
+Corps : Élève en Terminale Bac Pro CIEL au lycée Louis de Cormontaigne, à Metz, je cherche un stage du lundi 18 janvier au vendredi 19 février 2027, idéalement sur les cinq semaines consécutives. Je peux aussi n'en faire qu'une partie : du 18 au 29 janvier, ou du 1er au 19 février. Contact : adresse courriel (shortcode `{{</* courriel */>}}`).
 
 **2. `content/articles/swarf-os/index.md`** — un tag, image, code, tableau
 ```yaml

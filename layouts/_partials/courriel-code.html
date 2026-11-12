@@ -1,0 +1,6 @@
+{{- /* Adresse courriel encodée (renversée puis base64), décodée par courriel.js au clic.
+       Mesures publiées (spencermortensen.com/articles/email-obfuscation) : un mailto construit
+       en JavaScript lors d'une action de l'utilisateur a bloqué 100 % des robots testés. */ -}}
+{{- $adresse := printf "%s@%s" site.Params.courriel_nom site.Params.courriel_domaine -}}
+{{- $code := delimit (collections.Reverse (split $adresse "")) "" | base64Encode -}}
+{{- return $code -}}

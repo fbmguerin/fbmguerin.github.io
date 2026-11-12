@@ -10,4 +10,4 @@ epingle_jusqu_au: 2027-02-19
 
 Je peux aussi n'en faire qu'une partie : du 18 au 29 janvier, ou du 1er au 19 février.
 
-Contact : [francoisguerin@ikmail.com](mailto:francoisguerin@ikmail.com).
+Contact : {{< courriel >}}.

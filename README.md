@@ -72,6 +72,22 @@ La date « Révisé le » d'une page vient du dernier commit qui touche son `ind
 
 Les trois articles actuels (`recherche-stage`, `swarf-os`, `stage-sidsic`) ont des **dates provisoires**, à corriger. La section « Rendu » de `swarf-os` (image de remplacement, code, tableau) ne sert qu'à tester l'affichage sur mobile : à supprimer avec `bureau.svg`.
 
+## Adresse courriel
+
+L'adresse n'est jamais écrite en entier, ni dans le dépôt ni dans les pages, pour échapper aux robots qui collectent les adresses :
+
+- elle est définie en deux morceaux dans `hugo.toml` : `courriel_nom` et `courriel_domaine` ;
+- les pages n'en contiennent qu'une forme encodée, que `assets/js/courriel.js` décode **seulement au clic**. Les mesures publiées par [Spencer Mortensen](https://spencermortensen.com/articles/email-obfuscation/) montrent qu'une adresse construite en JavaScript lors d'une action de l'utilisateur a arrêté 100 % des robots testés ;
+- sans JavaScript, le bouton courriel est masqué.
+
+Dans un article, n'écrivez pas l'adresse : utilisez le shortcode, qui affiche un bouton « afficher l'adresse » :
+
+```markdown
+Contact : {{</* courriel */>}}.
+```
+
+L'adresse reste visible dans l'historique Git (anciens commits) et, si vous n'utilisez pas l'adresse masquée de GitHub, dans les métadonnées de vos commits.
+
 ## Icône GitHub
 
 La barre affiche `static/icons/github.svg` (logo officiel, une couleur), inclus tel quel dans la page. Préparer le fichier : `fill="currentColor"`, ni `width` ni `height`, sans `<g clip-path>`, `<defs>` ni `<clipPath>`. Tant que le fichier est absent, un carré en pointillés le remplace.
