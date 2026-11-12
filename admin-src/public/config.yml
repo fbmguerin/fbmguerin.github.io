@@ -26,7 +26,7 @@ collections:
     public_folder: ''        # …et référencées sans chemin : ![légende](bureau.png)
     create: true
     sortable_fields: [date, title]
-    fields: &champs
+    fields:
       - { name: title, label: Titre, widget: string }
       - { name: date, label: Date, widget: datetime, type: date, input_timezone: utc, default: '{{now}}' }
       - { name: tags, label: Tags, widget: list, required: false }
