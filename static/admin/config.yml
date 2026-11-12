@@ -10,6 +10,18 @@ backend:
 media_folder: static/medias
 public_folder: /medias
 
+# Images réduites et converties en WebP au moment de l'ajout : une photo de téléphone
+# (5 à 10 Mo) fait échouer l'enregistrement, GitHub coupant la requête trop lente.
+media_libraries:
+  default:
+    config:
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2048
+          height: 2048
+
 slug:
   encoding: ascii
   clean_accents: true
