@@ -2,7 +2,7 @@
 title: Stage au SIDSIC de la Moselle
 date: 2026-10-16
 tags:
-  - expérience
+  - stage
   - linux
 draft: false
 epingle: false
