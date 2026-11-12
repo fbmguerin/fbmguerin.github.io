@@ -1,0 +1,50 @@
+---
+title: Mon matériel
+date: 2026-11-12
+tags:
+  - perso
+  - linux
+resume: Ce que j'utilise au quotidien. Censé être mis à jour quand ça change. Faut que je mette des photos.
+draft: false
+epingle: false
+---
+
+## Système
+
+- **[Swarf-os](/articles/swarf-os/)** : mon système, une image Fedora bootc avec KDE Plasma (Wayland) que je construis moi-même, dérivée de Fedora Kinoite. Mises à jour atomiques, retour arrière possible.
+- Fedora Kinoite. je l'abandonnerait dans quelques mois, quand je serais sur que Swarf est bien stable. Au moment où j'écris ces lignes, il me semble stable, mais sais-t-on jamais, un pépin est vite arrivé...
+- Je cherche actuellement une base propre sur laquelle construire ma prochaine distro, avec un DE Quickshell + Niri. Arch a presque tout bon, mais c'est pas parfait... il faudra que je fasse un post là-dessus.
+
+## Matériel
+
+- **Intel NUC** : ma machine desktop avec deux SSD (128 Go et 200 Go).
+    - **Écran** : random iiyama, il faut d'ailleurs que je le remplace
+    - **Clavier** : random sapin de Noël mécanique "Cerberus". A remplacer aussi, il se salit trop vite et c'est un très chronophage à nettoyer. Filaire.
+    - **Souris** : Lenovo filaire. Idéalement je voudrais un clavier filaire et une souris sans fil...
+- **Packard Bell** :  pour les déplacements. Cheap.
+- **Framework Laptop 13** : celui que je ne touche presque pas. Pour parader.
+- **POCO X3 NFC (surya)** : acheté 60 € sur leboncoin. Un des rarissimes smartphones à être compatible Nura (anciennement PostmarketOS), Ubuntu Touch, Lineage/CrDroid...
+
+## Logiciels
+
+- **Environnement de bureau** : [Plasma](https://kde.org/fr/plasma-desktop/) vanilla pour l'instant, j'envisage un DE custom, j'en ai déjà parlé plus haut.
+- **Navigateur** : [Waterfox](https://www.waterfox.com/).
+- **Éditeur de code/texte** : KWrite, de [KDE](https://apps.kde.org/fr/), comme son beau K l'indique.
+- **Terminal** : Konsole. Idem.
+- **IA** : Claude Code surtout, et occasionnellement GH Copilot (ChatGPT), l'API Gemini...
+- **Lecteur multimédia** : VLC 🇫🇷 !
+- **Partitions** : ~~GParted~~ KDE partition manager.
+
+Oui, je suis un fan de KDE. C'est loin d'être parfait niveau UI, mais c'est très cohérent.
+
+## Services
+
+- **Mails** : Infomaniak, le suisse qui fournis les adresses en îîîîîîîîîîîîik.me (ik.me) et ikmail.com. Excellent service, je vous le recommande. Mais j'envisage tout de même un Roundcube sur un VPS... quand j'en aurais les moyens.
+- **Forge** : Github pour le moment. J'espère pouvoir monter ma propre instance de Forgejo quand j'enaurais les moyens, là aussi.
+
+## Loisirs
+- **Films & Séries** : Crunchyroll épicétout. 3 € par mois, merci spliiit #radinmalin.
+- **Jeux navigateur** : [Openfront](https://github.com/openfrontio/OpenFrontIO), les jeux de [SoftBear](https://github.com/SoftbearStudios), [Voxiom](https://voxiom.io/)...
+- **Steam** : [Team Fortress 2](https://store.steampowered.com/app/440/Team_Fortress_2/). J'adore le mode Mann *vs* machine.
+
+Merci Gabe.
