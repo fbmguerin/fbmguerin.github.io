@@ -1,0 +1,30 @@
+{{ define "main" }}
+{{- $liste := partial "articles.html" . -}}
+<div class="conteneur">
+<h1 class="masque">Articles</h1>
+{{- with $liste.epingles }}
+<ul class="grille epingles">
+{{- range . }}{{ partial "carte.html" (dict "page" . "epingle" true) }}{{ end }}
+</ul>
+{{- end }}
+{{- /* Rangée de tags : nombre d'articles décroissant, puis ordre alphabétique (collation française). */ -}}
+{{- $compte := dict -}}
+{{- range $liste.epingles | append $liste.fil -}}
+  {{- range partial "tags.html" . }}{{ $compte = merge $compte (dict . (add 1 (index $compte . | default 0))) }}{{ end -}}
+{{- end -}}
+{{- $tags := slice -}}
+{{- range $t, $n := $compte }}{{ $tags = $tags | append (dict "tag" $t "n" $n) }}{{ end -}}
+{{- $tags = sort (sort $tags "tag") "n" "desc" }}
+{{- with $tags }}
+<nav class="tags" aria-label="Filtrer par tag" hidden>
+<button type="button" data-tag="" aria-pressed="true">tout</button>
+{{- range . }}
+<button type="button" data-tag="{{ .tag }}" aria-pressed="false">{{ .tag }} <span class="nb">{{ .n }}</span></button>
+{{- end }}
+</nav>
+{{- end }}
+<ul class="grille" id="fil">
+{{- range $liste.fil }}{{ partial "carte.html" (dict "page" .) }}{{ end }}
+</ul>
+</div>
+{{ end }}

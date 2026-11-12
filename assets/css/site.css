@@ -1,0 +1,328 @@
+/* fbmguerin.github.io — feuille unique.
+   Couleurs définies une seule fois, avec light-dark(). Le thème suit
+   <meta name="color-scheme"> (voir docs/SPEC.md §9 et assets/js/theme.js).
+   Interdits : arrondis, ombres, flous, filtres, transparence, dégradés, animations. */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: light-dark(#e5e5e2, #161618);
+  --card: light-dark(#ffffff, #232326);
+  --hover: light-dark(#f2f6fc, #2b2f37);
+  --chip: light-dark(#ececea, #2f2f34);
+  --sunk: light-dark(#e6e6e3, #232326);
+  --line: light-dark(#cbcbc7, #333337);
+  --tx: light-dark(#1c1c1e, #e9e9eb);
+  --tx2: light-dark(#4f4f55, #b4b4bb);
+  --tx3: light-dark(#57575d, #90909a);
+  --ac: light-dark(#1a5fb4, #8fbaf0);
+
+  /* Coloration du code (classes Chroma), contraste AA sur --sunk */
+  --code-mot: light-dark(#7b2a8c, #d4a6f0);
+  --code-chaine: light-dark(#2e6b14, #a6d68a);
+  --code-nombre: light-dark(#9a4700, #f0b27a);
+  --code-variable: light-dark(#a1185a, #f0a0c0);
+  --code-suppr: light-dark(#a31515, #f4a3a3);
+
+  --barre: 60px;
+  scroll-padding-top: var(--barre);
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) { color-scheme: dark; }
+  &:has(> head > meta[name="color-scheme"][content="light"]) { color-scheme: light; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tx);
+  font: 400 17px/1.6 system-ui, sans-serif;
+}
+
+a { color: inherit; }
+strong, b { font-weight: 500; }
+
+:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+main:focus { outline: none; }
+
+.masque {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.conteneur {
+  max-width: 1040px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+.conteneur.etroit { max-width: calc(720px + 48px); }
+
+/* ---- Lien d'évitement ---- */
+.evitement {
+  position: absolute;
+  top: -100px;
+  left: 8px;
+  z-index: 2;
+  padding: 8px 12px;
+  background: var(--card);
+  color: var(--tx);
+}
+.evitement:focus { top: 8px; }
+
+/* ---- Barre du haut ---- */
+.barre {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: var(--barre);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+
+  & .conteneur {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: 100%;
+  }
+  & nav { display: flex; gap: 4px; }
+}
+
+.nom {
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: var(--bg);
+  color: var(--tx2);
+  cursor: pointer;
+
+  &:hover { background: var(--card); color: var(--tx); }
+  & svg { width: auto; height: 18px; }
+}
+.icone[hidden] { display: none; }
+#theme[aria-pressed="true"] .lune,
+#theme[aria-pressed="false"] .soleil { display: none; }
+
+.manquant {
+  width: 18px;
+  height: 18px;
+  border: 1.5px dashed currentColor;
+}
+
+/* ---- Accueil ---- */
+main { padding-block: 32px 48px; }
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & > li { display: grid; min-width: 0; }
+  & > li[hidden] { display: none; }
+}
+.epingles { margin-bottom: 24px; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  & button {
+    min-height: 40px;
+    padding: 6px 12px;
+    border: 0;
+    background: var(--card);
+    color: var(--tx);
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover { background: var(--hover); }
+    &[aria-pressed="true"] { background: var(--tx); color: var(--bg); }
+  }
+  & .nb { margin-left: 4px; font-size: 12px; }
+}
+.tags[hidden] { display: none; }
+
+/* ---- Carte ---- */
+.carte {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 180px;
+  padding: 20px;
+  background: var(--card);
+  color: var(--tx);
+  text-decoration: none;
+  overflow-wrap: break-word;
+
+  & h2 { margin: 0 0 8px; font-size: 18px; line-height: 1.35; font-weight: 500; }
+  & p { margin: 0 0 16px; font-size: 15px; line-height: 1.55; color: var(--tx2); }
+
+  &:hover, &:focus-visible {
+    background: var(--hover);
+    & h2 { color: var(--ac); }
+    & .pastille { background: var(--card); }
+  }
+}
+
+.bas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  font-size: 13px;
+  color: var(--tx2);
+}
+
+.pastille {
+  padding: 2px 8px;
+  background: var(--chip);
+  color: var(--tx2);
+  font-size: 13px;
+  text-decoration: none;
+}
+.tag { display: inline-flex; align-items: center; text-decoration: none; }
+.tag:hover .pastille { color: var(--ac); }
+
+/* ---- Article ---- */
+.retour {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--tx3);
+  font-size: 14px;
+  text-decoration: none;
+
+  &:hover { color: var(--ac); }
+}
+
+main h1 {
+  margin: 0 0 12px;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 500;
+  overflow-wrap: break-word;
+}
+
+.infos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 0 0 32px;
+  color: var(--tx2);
+  font-size: 14px;
+}
+
+.corps {
+  min-width: 0;
+  overflow-wrap: break-word;
+
+  & p, & ul, & ol, & blockquote { max-width: 66ch; margin: 0 0 16px; }
+  & h2 { margin: 48px 0 16px; font-size: 21px; line-height: 1.3; font-weight: 500; }
+  & h3 { margin: 32px 0 12px; font-size: 18px; line-height: 1.35; font-weight: 500; }
+  & a { text-decoration-color: var(--line); }
+  & a:hover { color: var(--ac); }
+  & img { display: block; max-width: 100%; height: auto; }
+  & figure { margin: 24px 0; }
+  & figcaption { margin-top: 8px; color: var(--tx2); font-size: 14px; }
+  & blockquote { padding-left: 16px; border-left: 2px solid var(--line); color: var(--tx2); }
+}
+
+code, pre { font-family: ui-monospace, monospace; }
+:not(pre) > code { padding: 0 4px; background: var(--sunk); font-size: 0.88em; }
+
+pre {
+  margin: 0 0 16px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  background: var(--sunk);
+  color: var(--tx);
+  font-size: 14px;
+  line-height: 1.8;
+  overflow-wrap: normal;
+}
+
+.tableau {
+  max-width: 100%;
+  margin: 0 0 16px;
+  overflow-x: auto;
+  background: var(--sunk);
+}
+table { border-collapse: collapse; font-size: 15px; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { font-weight: 500; }
+tbody tr:last-child td { border-bottom: 0; }
+
+/* Coloration : classes Chroma de Hugo, une seule palette (variables ci-dessus) */
+.chroma {
+  & .k, & .kc, & .kd, & .kn, & .kp, & .kr, & .kt, & .nt, & .nb, & .bp, & .ow { color: var(--code-mot); }
+  & .s, & .sa, & .sb, & .sc, & .dl, & .sd, & .s1, & .s2, & .se, & .sh, & .si, & .sx, & .sr, & .ss, & .gi { color: var(--code-chaine); }
+  & .m, & .mb, & .mf, & .mh, & .mi, & .il, & .mo { color: var(--code-nombre); }
+  & .nv, & .vc, & .vg, & .vi, & .vm, & .na, & .no { color: var(--code-variable); }
+  & .nf, & .fm, & .nc, & .nn, & .nd, & .ne { color: var(--ac); }
+  & .c, & .ch, & .cm, & .c1, & .cs, & .cp, & .cpf { color: var(--tx3); font-style: italic; }
+  & .gd, & .err { color: var(--code-suppr); }
+  & .gh, & .gu { font-weight: 500; }
+}
+
+/* ---- Même tag ---- */
+.voisins {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+
+  & h2 { margin: 0 0 12px; font-size: 18px; font-weight: 500; }
+  & ul { margin: 0; padding: 0; list-style: none; }
+  & li { margin: 4px 0; }
+  & a { text-decoration-color: var(--line); }
+  & a:hover { color: var(--ac); }
+  & time { margin-left: 8px; color: var(--tx3); font-size: 14px; }
+}
+
+/* ---- Pied de page ---- */
+.pied {
+  border-top: 1px solid var(--line);
+
+  & .conteneur { display: flex; flex-wrap: wrap; gap: 8px 24px; padding-block: 24px; }
+  & a { color: var(--tx2); font-size: 14px; text-decoration-color: var(--line); }
+  & a:hover { color: var(--ac); }
+}
+
+/* ---- Mobile : un seul point de rupture ---- */
+@media (max-width: 600px) {
+  .icone { width: 44px; height: 44px; }
+  .tags button { min-height: 44px; }
+  main h1 { font-size: 32px; }
+  .barre .conteneur { gap: 8px; }
+  .barre nav { gap: 0; margin-right: -10px; }
+  .nom, .retour, .tag, .voisins a, .pied a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .retour { margin-bottom: 12px; }
+}

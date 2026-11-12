@@ -1,0 +1,15 @@
+<header class="barre">
+<div class="conteneur">
+<a class="nom" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
+<nav aria-label="Liens">
+<a class="icone" href="https://github.com/fbmguerin" aria-label="GitHub">
+{{- with os.FileExists "static/icons/github.svg" }}{{ readFile "static/icons/github.svg" | replaceRE `<\?xml[^>]*\?>\s*` "" | replaceRE `<svg` `<svg aria-hidden="true"` 1 | safeHTML }}{{ else }}<span class="manquant" aria-hidden="true"></span>{{ end -}}
+</a>
+{{- with site.Home.OutputFormats.Get "atom" }}
+<a class="icone" href="{{ .RelPermalink }}" aria-label="Flux Atom">{{ partial "icone.html" "rss" }}</a>
+{{- end }}
+<a class="icone" href="mailto:{{ site.Params.email }}" aria-label="Courriel">{{ partial "icone.html" "courriel" }}</a>
+<button class="icone" id="theme" type="button" aria-label="Thème sombre" aria-pressed="false" hidden>{{ partial "icone.html" "lune" }}{{ partial "icone.html" "soleil" }}</button>
+</nav>
+</div>
+</header>

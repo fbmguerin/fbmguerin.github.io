@@ -1,0 +1,27 @@
+{{- /* Flux Atom : articles publiés, les plus récemment mis à jour en premier.
+       updated = dernière révision git (à défaut la date de publication), published = date.
+       Contenu : résumé et lien, pas le texte complet. */ -}}
+{{- $pages := (where site.RegularPages "Section" "articles").ByLastmod.Reverse -}}
+{{- $f := "2006-01-02T15:04:05Z07:00" -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>" | safeHTML }}
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ site.Language.Lang }}">
+  <title>{{ site.Title }}</title>
+  <link href="{{ .Permalink }}" rel="alternate" type="text/html"/>
+  <link href="{{ (.OutputFormats.Get "atom").Permalink }}" rel="self" type="application/atom+xml"/>
+  <id>{{ .Permalink }}</id>
+  <updated>{{ with index $pages 0 }}{{ .Lastmod.Format $f | safeHTML }}{{ else }}{{ now.Format $f | safeHTML }}{{ end }}</updated>
+  <author><name>{{ site.Title }}</name></author>
+  {{- range $pages }}
+  <entry{{ with .Params.lang }} xml:lang="{{ . }}"{{ end }}>
+    <title>{{ .Title }}</title>
+    <link href="{{ .Permalink }}" rel="alternate" type="text/html"/>
+    <id>{{ .Permalink }}</id>
+    <published>{{ .Date.Format $f | safeHTML }}</published>
+    <updated>{{ .Lastmod.Format $f | safeHTML }}</updated>
+    {{- range partial "tags.html" . }}
+    <category term="{{ . }}"/>
+    {{- end }}
+    <summary>{{ partial "resume.html" . }}</summary>
+  </entry>
+  {{- end }}
+</feed>
