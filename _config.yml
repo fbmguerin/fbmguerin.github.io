@@ -19,6 +19,8 @@ plugins:
   - jekyll-last-modified-at
 
 feed:
+  path: /feed/posts.xml   # jekyll-feed produit toujours un flux des « posts » : vide ici,
+                          # on l'écarte de /feed.xml (contournement n° 3)
   collections:
     articles:
       path: /feed.xml   # flux des articles (au lieu des « posts » par défaut)

@@ -28,7 +28,11 @@ puis les autres du plus récent au plus ancien. data-tags sert au futur filtre J
     <a href="{{ a.url | relative_url }}">{{ a.title }}</a>
     <time datetime="{{ a.date | date: '%Y-%m-%d' }}">{{ a.date | date: "%Y-%m-%d" }}</time>
     {% for t in a.tags %}<span class="tag">{{ t }}</span> {% endfor %}
-    <p>{% if a.resume %}{{ a.resume | escape }}{% else %}{{ a.excerpt | strip_html | normalize_whitespace | truncate: 160, "…" }}{% endif %}</p>
+    {%- if a.resume %}{% assign r = a.resume | escape %}{% else -%}
+      {%- assign r = a.excerpt | strip_html | normalize_whitespace | strip -%}
+      {%- if r.size > 160 %}{% assign r = r | truncate: 161, "" | split: " " | pop | join: " " | append: "…" %}{% endif -%}
+    {%- endif %}
+    <p>{{ r }}</p>
   </li>
 {%- endfor %}
 </ul>

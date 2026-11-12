@@ -1,0 +1,49 @@
+# Vérification du prototype dans GitHub Actions (aucun déploiement).
+# Compare un clone complet (fetch-depth: 0) et un clone superficiel (fetch-depth: 1)
+# et simule une construction le 2026-10-25 pour l'expiration des épingles.
+name: Prototype Jekyll
+
+on:
+  push:
+    branches: ["proto/jekyll"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fetch-depth: [0, 1]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: ${{ matrix.fetch-depth }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+      - run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+      - name: Résultats
+        run: |
+          echo "== Fichiers produits"; find _site -type f | sort
+          echo "== Révision de swarf-os (point 5)"; grep -o 'Publié le.*</p>' _site/articles/swarf-os/index.html
+          echo "== Flux (point 6)"; grep -oE '<entry[^>]*>|<title type="html">[^<]*|<updated>[^<]*' _site/feed.xml
+          echo "== Accueil (points 7 et 8)"; grep -oE '<li[^>]*>' _site/index.html
+      - name: Épingle à une date simulée (2026-10-25)
+        if: matrix.fetch-depth == 0
+        run: |
+          sudo apt-get install -y -qq faketime > /dev/null
+          faketime '2026-10-25 12:00:00' bundle exec jekyll build -q -d /tmp/site-1025
+          grep -oE '<li[^>]*>' /tmp/site-1025/index.html
+      - name: Construire /admin/ (Sveltia, npm)
+        if: matrix.fetch-depth == 0
+        working-directory: admin-src
+        run: |
+          npm ci --no-audit --no-fund
+          npx vite build --outDir ../_site/admin --emptyOutDir --logLevel warn
+          ls ../_site/admin && du -sh ../_site/admin
