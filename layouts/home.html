@@ -1,0 +1,14 @@
+{{ define "main" }}
+{{- $liste := partial "articles.html" . -}}
+<h1>{{ site.Title }}</h1>
+<ul id="articles">
+{{- range $liste.tous }}
+  <li data-tags="{{ delimit (.Params.tags | default slice) " " }}" data-date="{{ .Date.Format "2006-01-02" }}"{{ if in $liste.epingles . }} data-epingle{{ end }}{{ with .Params.lang }} lang="{{ . }}"{{ end }}>
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+    {{ range .Params.tags }}<span class="tag">{{ . }}</span> {{ end }}
+    <p>{{ partial "resume.html" . }}</p>
+  </li>
+{{- end }}
+</ul>
+{{ end }}

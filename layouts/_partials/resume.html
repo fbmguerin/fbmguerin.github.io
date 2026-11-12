@@ -1,0 +1,8 @@
+{{- /* resume, sinon premier paragraphe non vide, nettoyé, coupé vers 160 caractères (au mot). */ -}}
+{{- $r := .Params.resume -}}
+{{- if not $r -}}
+  {{- range findRE `(?s)<p>.*?</p>` .Content -}}
+    {{- if and (not $r) (trim (. | plainify | htmlUnescape) " \n") }}{{ $r = trim (. | plainify | htmlUnescape) " \n" | replaceRE `\s+` " " }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (truncate 160 "…" $r) -}}

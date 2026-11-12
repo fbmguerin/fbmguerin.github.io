@@ -1,0 +1,31 @@
+baseURL = "https://fbmguerin.github.io/"
+title = "fbmguerin"
+languageCode = "fr"
+defaultContentLanguage = "fr"
+timeZone = "Europe/Paris"
+enableGitInfo = true            # .Lastmod = date du dernier commit qui touche le fichier
+disableKinds = ["taxonomy", "term", "section", "rss", "sitemap"]
+
+# Les articles restent dans articles/ à la racine du dépôt (page bundles).
+# Déclarer un montage remplace ceux par défaut : on redéclare ceux qui servent.
+[module]
+  [[module.mounts]]
+    source = "articles"
+    target = "content/articles"
+  [[module.mounts]]
+    source = "layouts"
+    target = "layouts"
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+
+# Flux Atom : le RSS natif de Hugo n'a pas de date de mise à jour par article.
+[mediaTypes."application/atom+xml"]
+  suffixes = ["xml"]
+[outputFormats.atom]
+  mediaType = "application/atom+xml"
+  baseName = "feed"
+  rel = "alternate"
+[outputs]
+  home = ["html", "atom"]
+  page = ["html"]
