@@ -91,9 +91,8 @@ En-tête YAML. Clés sans accents (Hugo met les clés en minuscules).
 
 ### Accueil (`/`)
 De haut en bas, dans un conteneur de 1040 px maximum, marges latérales de 24 px :
-1. **Cartes épinglées** (zéro à deux). Ce sont des cartes ordinaires, **sans aucun marquage particulier** : pas de punaise, pas de bandeau, pas de libellé, pas de couleur propre. Elles se trouvent simplement en tête de la grille, **et restent visibles quel que soit le tag filtré**. S'il n'y en a pas, rien n'est rendu.
-2. **Rangée de tags** : un bouton « tout » puis un bouton par tag, triés par nombre d'articles décroissant, puis ordre alphabétique français. Le nombre d'articles reste affiché en petit dans chaque bouton. Les boutons passent sur plusieurs lignes, y compris sur mobile (jamais de défilement horizontal).
-3. **Grille de cartes** : `repeat(auto-fill, minmax(280px, 1fr))`, `gap: 12px`.
+1. **Rangée de tags** : un bouton « tout » puis un bouton par tag, triés par nombre d'articles décroissant, puis ordre alphabétique français. Le nombre d'articles reste affiché en petit dans chaque bouton, « tout » compris (nombre total d'articles). Les boutons passent sur plusieurs lignes, y compris sur mobile (jamais de défilement horizontal).
+2. **Grille de cartes** : `repeat(auto-fill, minmax(280px, 1fr))`, `gap: 12px`. Les **cartes épinglées** (zéro à deux) en sont les premières cartes, dans la même grille. Ce sont des cartes ordinaires, **sans aucun marquage particulier** : pas de punaise, pas de bandeau, pas de libellé, pas de couleur propre. Elles **restent visibles quel que soit le tag filtré**.
 
 Pas de présentation de l'auteur, pas de titre « Journal », pas de slogan.
 
@@ -107,7 +106,7 @@ Un seul lien englobant (`<a>`), de haut en bas : titre (18 px/1,35, graisse 500)
 - Ligne d'informations sous le titre : `AAAA-MM`, puis « Révisé le JJ/MM/AAAA » **uniquement si** la dernière révision tombe un autre jour que la publication, puis les tags (liens vers `/#<tag>`).
 - Corps : voir §7.
 - En bas : section « Même tag » (cinq articles au plus, hors l'article courant, du plus récent au plus ancien, rien si aucun), puis pied de page.
-- Pied de page : « Modifier cette page » (lien vers `https://github.com/fbmguerin/fbmguerin.github.io/edit/main/content/articles/<nom>/index.md`) et « Source du site ». Sur l'accueil : « Source du site » seulement. Rien d'autre.
+- Pied de page, sur toutes les pages : **vide**, sans lien ni filet (simple espace en bas de page).
 
 ### 404
 Phrase courte et lien vers l'accueil.

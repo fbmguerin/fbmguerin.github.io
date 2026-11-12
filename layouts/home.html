@@ -2,11 +2,6 @@
 {{- $liste := partial "articles.html" . -}}
 <div class="conteneur">
 <h1 class="masque">Articles</h1>
-{{- with $liste.epingles }}
-<ul class="grille epingles">
-{{- range . }}{{ partial "carte.html" (dict "page" . "epingle" true) }}{{ end }}
-</ul>
-{{- end }}
 {{- /* Rangée de tags : nombre d'articles décroissant, puis ordre alphabétique (collation française). */ -}}
 {{- $compte := dict -}}
 {{- range $liste.epingles | append $liste.fil -}}
@@ -17,13 +12,14 @@
 {{- $tags = sort (sort $tags "tag") "n" "desc" }}
 {{- with $tags }}
 <nav class="tags" aria-label="Filtrer par tag" hidden>
-<button type="button" data-tag="" aria-pressed="true">tout</button>
+<button type="button" data-tag="" aria-pressed="true">tout <span class="nb">{{ len ($liste.epingles | append $liste.fil) }}</span></button>
 {{- range . }}
 <button type="button" data-tag="{{ .tag }}" aria-pressed="false">{{ .tag }} <span class="nb">{{ .n }}</span></button>
 {{- end }}
 </nav>
 {{- end }}
 <ul class="grille" id="fil">
+{{- range $liste.epingles }}{{ partial "carte.html" (dict "page" . "epingle" true) }}{{ end }}
 {{- range $liste.fil }}{{ partial "carte.html" (dict "page" .) }}{{ end }}
 </ul>
 </div>
