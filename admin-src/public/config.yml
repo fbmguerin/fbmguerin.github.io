@@ -1,0 +1,45 @@
+# Configuration de Sveltia CMS (prototype Jekyll). Servie en /admin/config.yml.
+backend:
+  name: github
+  repo: fbmguerin/fbmguerin.github.io
+  branch: main
+  auth_methods: [token]   # jeton d'accès personnel GitHub : ni serveur, ni proxy OAuth
+
+# Obligatoire au niveau global ; inutilisé par les articles, qui gardent leurs images à côté.
+media_folder: assets/medias
+public_folder: /assets/medias
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+output:
+  omit_empty_optional_fields: true   # pas de « resume: '' » ni « epingle_jusqu_au: '' » écrits pour rien
+
+collections:
+  - name: articles
+    label: Articles
+    label_singular: Article
+    folder: _articles
+    path: '{{slug}}/index'   # un article = un dossier
+    media_folder: ''         # images rangées dans le dossier de l'article…
+    public_folder: ''        # …et référencées sans chemin : ![légende](bureau.png)
+    create: true
+    sortable_fields: [date, title]
+    fields: &champs
+      - { name: title, label: Titre, widget: string }
+      - { name: date, label: Date, widget: datetime, type: date, input_timezone: utc, default: '{{now}}' }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - { name: resume, label: Résumé, widget: text, required: false, hint: "Facultatif : sinon, le premier paragraphe." }
+      - { name: published, label: Publié, widget: boolean, default: true, hint: "Décocher pour un brouillon." }
+      - { name: epingle, label: Épinglé, widget: boolean, default: false, required: false }
+      - { name: epingle_jusqu_au, label: "Épinglé jusqu'au", widget: datetime, type: date, input_timezone: utc, required: false }
+      - { name: lang, label: Langue, widget: select, options: [fr, en], required: false, hint: "Vide = français." }
+      - { name: body, label: Texte, widget: markdown }
+
+  - name: notes
+    label: Notes (fichier unique)
+    label_singular: Note
+    folder: _articles        # articles/<nom>.md, sans image
+    create: true
+    fields: *champs
