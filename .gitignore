@@ -1,7 +1,7 @@
 # Sorties de construction
-_site/
-public/
-resources/_gen/
+/_site/
+/public/
+/resources/_gen/
 .hugo_build.lock
 .jekyll-cache/
 .jekyll-metadata
