@@ -24,16 +24,16 @@
   --code-variable: light-dark(#a1185a, #f0a0c0);
   --code-suppr: light-dark(#a31515, #f4a3a3);
 
-  /* Tags : huit couleurs (fond de pastille, texte), AA dans les deux thèmes,
-     y compris texte --card sur fond texte (bouton de filtre actif) */
-  --t0-fond: light-dark(#dfe9f6, #243042); --t0-tx: light-dark(#13386c, #abc6ed); /* bleu */
-  --t1-fond: light-dark(#dff6e7, #24422e); --t1-tx: light-dark(#136c31, #abedc1); /* vert */
-  --t2-fond: light-dark(#f6eadf, #423224); --t2-tx: light-dark(#6c3d13, #edcaab); /* orange */
-  --t3-fond: light-dark(#f6dfe1, #422426); --t3-tx: light-dark(#6c131b, #edabb0); /* rouge */
-  --t4-fond: light-dark(#ecdff6, #362442); --t4-tx: light-dark(#47136c, #d2abed); /* violet */
-  --t5-fond: light-dark(#dff6f6, #244242); --t5-tx: light-dark(#136c6c, #abeded); /* sarcelle */
-  --t6-fond: light-dark(#f6dfec, #422436); --t6-tx: light-dark(#6c1347, #edabd2); /* rose */
-  --t7-fond: light-dark(#f6f0df, #423b24); --t7-tx: light-dark(#6c5613, #edddab); /* ocre */
+  /* Tags : liseré de couleur à gauche d'une pastille neutre (décoratif : le texte
+     reste --tx2 sur --chip). Huit couleurs, attribuées par tags-couleurs.html. */
+  --t0: light-dark(#2866bd, #6494d8); /* bleu */
+  --t1: light-dark(#28bd5a, #64d88b); /* vert */
+  --t2: light-dark(#bd6e28, #d89a64); /* orange */
+  --t3: light-dark(#bd2835, #d8646e); /* rouge */
+  --t4: light-dark(#7f28bd, #a864d8); /* violet */
+  --t5: light-dark(#28bdbd, #64d8d8); /* sarcelle */
+  --t6: light-dark(#bd287f, #d864a8); /* rose */
+  --t7: light-dark(#bd9828, #d8bb64); /* ocre */
 
   --barre: 60px;
   scroll-padding-top: var(--barre);
@@ -179,10 +179,8 @@ main { padding-block: 32px 48px; }
     &:hover { background: var(--hover); }
     &[aria-pressed="true"] { background: var(--tx); color: var(--bg); }
 
-    /* Bouton d'un tag : couleurs de sa pastille ; actif, couleurs inversées */
-    &[class] { background: var(--tag-fond); color: var(--tag-tx); }
-    &[class]:hover { background: var(--card); }
-    &[class][aria-pressed="true"] { background: var(--tag-tx); color: var(--card); }
+    /* Bouton d'un tag : même liseré que sa pastille */
+    &[class] { border-left: 3px solid var(--tag); }
   }
   & .nb { margin-left: 4px; font-size: 12px; }
 }
@@ -219,25 +217,26 @@ main { padding-block: 32px 48px; }
   color: var(--tx2);
 }
 
-.t0 { --tag-fond: var(--t0-fond); --tag-tx: var(--t0-tx); }
-.t1 { --tag-fond: var(--t1-fond); --tag-tx: var(--t1-tx); }
-.t2 { --tag-fond: var(--t2-fond); --tag-tx: var(--t2-tx); }
-.t3 { --tag-fond: var(--t3-fond); --tag-tx: var(--t3-tx); }
-.t4 { --tag-fond: var(--t4-fond); --tag-tx: var(--t4-tx); }
-.t5 { --tag-fond: var(--t5-fond); --tag-tx: var(--t5-tx); }
-.t6 { --tag-fond: var(--t6-fond); --tag-tx: var(--t6-tx); }
-.t7 { --tag-fond: var(--t7-fond); --tag-tx: var(--t7-tx); }
+.t0 { --tag: var(--t0); }
+.t1 { --tag: var(--t1); }
+.t2 { --tag: var(--t2); }
+.t3 { --tag: var(--t3); }
+.t4 { --tag: var(--t4); }
+.t5 { --tag: var(--t5); }
+.t6 { --tag: var(--t6); }
+.t7 { --tag: var(--t7); }
 
 .pastille {
   padding: 2px 8px;
-  background: var(--tag-fond, var(--chip));
-  color: var(--tag-tx, var(--tx2));
+  background: var(--chip);
+  color: var(--tx2);
   font-size: 13px;
   text-decoration: none;
 }
+.pastille[class*=" t"] { border-left: 3px solid var(--tag); }
 .tag { display: inline-flex; align-items: center; text-decoration: none; }
-/* Date de la page d'article : posée sur le fond de page, pas sur une carte */
-.infos time.pastille { background: var(--card); }
+/* Page d'article : pastilles posées sur le fond de page, pas sur une carte */
+.infos .pastille { background: var(--card); }
 
 .tag:hover .pastille { text-decoration: underline; }
 
