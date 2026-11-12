@@ -4,7 +4,7 @@
 <article>
 <h1>{{ .Title }}</h1>
 <p class="infos">
-<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01" }}</time>
+<time class="pastille" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01" }}</time>
 {{- $publie := partial "date-paris.html" .Date }}
 {{- $revise := partial "date-paris.html" .Lastmod }}
 {{- if gt $revise $publie }}

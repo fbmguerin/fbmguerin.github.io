@@ -15,11 +15,11 @@
 <link rel="alternate" type="application/atom+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
 {{- end }}
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
-{{- range slice "theme" "filter" }}
-{{- if or (eq . "theme") $.IsHome }}
-{{- with resources.Get (printf "js/%s.js" .) }}{{ with . | minify | fingerprint }}
+{{- $scripts := slice "js/theme.js" }}
+{{- if .IsHome }}{{ $scripts = $scripts | append "js/filter.js" }}{{ end }}
+{{- range $scripts }}
+{{- with resources.Get . | minify | fingerprint }}
 <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
-{{- end }}{{ end }}
 {{- end }}
 {{- end }}
 </head>
