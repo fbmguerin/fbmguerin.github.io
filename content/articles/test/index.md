@@ -4,7 +4,7 @@ date: 2026-11-12
 tags:
   - test
   - hello world
-draft: true
+draft: false
 epingle: false
 ---
 
@@ -17,3 +17,5 @@ _truc_
 _italien_
 
 ~~gnagna~~
+
+![](8151352-Hello-World-Wallpaper-4257679627.webp)
