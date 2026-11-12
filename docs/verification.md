@@ -1,11 +1,13 @@
 # Vérification : Jekyll ou Hugo ?
 
-Essais réalisés le 2026-11-12 sur deux branches, avec les 4 mêmes faux articles :
+Essais réalisés le 2026-11-12 sur deux branches, avec les 4 mêmes faux articles. Les liens Actions renvoient à la dernière exécution, faite après le passage de tous les articles en dossier ; ses résultats sont identiques aux exécutions précédentes.
+
+**Convention retenue : tout contenu est un article, et tout article est un dossier** (`articles/<nom>/index.md`, ressources à côté), même sans image. Il n'existe pas d'autre type de contenu.
 
 | Branche | Générateur | Vérification Actions |
 | --- | --- | --- |
-| [`proto/jekyll`](https://github.com/fbmguerin/fbmguerin.github.io/tree/proto/jekyll) | Jekyll 4.4.1, jekyll-feed 0.18.0, jekyll-last-modified-at 1.3.2 (Ruby 3.3) | [exécution 43255455265](https://github.com/fbmguerin/fbmguerin.github.io/actions/runs/43255455265), puis [43255911880](https://github.com/fbmguerin/fbmguerin.github.io/actions/runs/43255911880) après correction du résumé |
-| [`proto/hugo`](https://github.com/fbmguerin/fbmguerin.github.io/tree/proto/hugo) | Hugo 0.169.0 (binaire officiel dans Actions, compilé depuis les sources en local) | [exécution 43255453127](https://github.com/fbmguerin/fbmguerin.github.io/actions/runs/43255453127) |
+| [`proto/jekyll`](https://github.com/fbmguerin/fbmguerin.github.io/tree/proto/jekyll) | Jekyll 4.4.1, jekyll-feed 0.18.0, jekyll-last-modified-at 1.3.2 (Ruby 3.3) | [exécution 43257695747](https://github.com/fbmguerin/fbmguerin.github.io/actions/runs/43257695747) |
+| [`proto/hugo`](https://github.com/fbmguerin/fbmguerin.github.io/tree/proto/hugo) | Hugo 0.169.0 (binaire officiel dans Actions, compilé depuis les sources en local) | [exécution 43257697607](https://github.com/fbmguerin/fbmguerin.github.io/actions/runs/43257697607) |
 
 Les deux générateurs ont pu être installés et exécutés pour de vrai, en local comme dans GitHub Actions. Aucun résultat ci-dessous n'est simulé. Seules les **dates de commit** des faux articles ont été fixées à la main (`GIT_COMMITTER_DATE`) pour fabriquer un historique : articles ajoutés le 2026-10-10, swarf-os révisé le 2026-10-20.
 
@@ -14,7 +16,7 @@ Articles d'essai :
 | Fichier | Rôle |
 | --- | --- |
 | `swarf-os/index.md` + `bureau.png` | article en dossier avec image, révisé après publication |
-| `menu-kde.md` | note simple, sans `resume` (test du résumé automatique) |
+| `menu-kde/index.md` | article sans image ni `resume` (test du résumé automatique) |
 | `brouillon/index.md` | brouillon |
 | `annonce/index.md` | épinglé jusqu'au 2026-11-01 (donc expiré), `lang: en` |
 
@@ -24,7 +26,7 @@ Articles d'essai :
 
 | # | Besoin | Jekyll | Hugo |
 | --- | --- | --- | --- |
-| 1 | Article = dossier, note = fichier unique | 🔧 dossier `_articles/`, pas `articles/` | ✅ `articles/` (montage de module) |
+| 1 | Article = dossier | 🔧 dossier `_articles/`, pas `articles/` | ✅ `articles/` (montage de module) |
 | 2 | Adresse propre, images à côté | 🔧 plugin Ruby de 8 lignes | ✅ natif |
 | 3 | En-tête minimal | ✅ (`published: false` natif) | 🔧 `draft: true` au lieu de `published: false` |
 | 4 | Résumé automatique | ✅ (gabarit Liquid) | ✅ (partial de 8 lignes) |
@@ -42,7 +44,7 @@ Articles d'essai :
 - **Jekyll 🔧.** Les collections doivent être dans un dossier préfixé par `_` : les articles vivent dans `_articles/<nom>/index.md` et non `articles/`. C'est le **contournement n° 1**, sans solution propre. Une autre piste, non testée : traiter les articles comme de simples pages (`articles/` sans `_`), mais on perd alors le support de jekyll-feed.
 - **Hugo ✅.** `articles/` reste à la racine du dépôt grâce à un montage `articles → content/articles` dans `hugo.toml`. Comme déclarer un montage remplace ceux par défaut, il faut aussi redéclarer `layouts` et `static` (3 blocs de configuration). Ce sont les « page bundles » natifs.
 
-Pour les deux générateurs, une note simple (`menu-kde.md`) coexiste avec les dossiers.
+Les deux générateurs accepteraient aussi un article en fichier unique (`articles/<nom>.md`), testé dans une première version. Cette forme est **abandonnée** : Sveltia ne la voit pas dans la collection des articles en dossier (voir point 9), et un dossier permet d'ajouter une image plus tard sans rien déplacer.
 
 ### 2. Adresse finale
 
@@ -66,7 +68,7 @@ Jekyll gère `published: false` nativement : le fichier n'est pas lu du tout.
 
 ### 4. Résumé automatique
 
-Les deux générateurs donnent le même résultat. Sans `resume`, ils prennent le premier paragraphe **non vide**, retirent le HTML (gras, lien, code) et coupent au mot avant 160 caractères en ajoutant « … ». Résultat pour `menu-kde.md` :
+Les deux générateurs donnent le même résultat. Sans `resume`, ils prennent le premier paragraphe **non vide**, retirent le HTML (gras, lien, code) et coupent au mot avant 160 caractères en ajoutant « … ». Résultat pour `menu-kde/index.md` :
 
 > Le menu de KDE Plasma propose par défaut beaucoup trop d’entrées : voici comment le réduire à l’essentiel avec l’éditeur de menu et deux lignes de…
 
@@ -82,6 +84,8 @@ Les deux générateurs fonctionnent ✅ (`jekyll-last-modified-at` d'un côté, 
 | Hugo, swarf-os | révisé le **2026-10-20** ✅ | révisé le 2026-11-12 ❌ (idem) |
 
 `fetch-depth: 0` est donc indispensable. Il figure dans `.github/workflows/pages.yml`.
+
+**Limite commune : renommer un article remet sa date de révision à la date du renommage.** Les deux générateurs ne suivent pas l'historique d'un fichier déplacé (pas de `git log --follow`). Test réel : `git mv articles/swarf-os articles/swarf-os-v2`, puis construction. Résultat : « révisé le 2026-11-12 » avec Hugo comme avec Jekyll. Changer le slug d'un article dans Sveltia déplace son dossier, avec le même effet. Le passage de `menu-kde.md` à `menu-kde/index.md` dans les prototypes a donc été commité avec une date antidatée, pour garder les résultats ci-dessous comparables.
 
 ### 6. Flux Atom
 
@@ -138,7 +142,7 @@ Documentation lue sur sveltiacms.app le 2026-11-12, pour la version **0.264.0** 
 | --- | --- |
 | (a) images dans le dossier de l'article | ✅ L'image téléversée a été écrite dans `…/essai-depuis-le-cms/capture-essai.png`, et le texte contient `![Ma capture](capture-essai.png)`, sans chemin. Réglages utilisés : `media_folder: ''` et `public_folder: ''`. |
 | (b) articles en dossier | ✅ Avec `path: '{{slug}}/index'`, Sveltia a créé `…/essai-depuis-le-cms/index.md`. |
-| (b') notes en fichier unique | ✅ Une seconde collection « Notes » sur le **même dossier**, sans `path`, ne liste que `menu-kde.md`. La collection « Articles » ne liste que les 3 dossiers. |
+| (b') une seule collection | ✅ La collection unique « Articles » liste les 4 articles d'essai, brouillon compris. Un fichier unique `articles/<nom>.md` n'y apparaîtrait **pas** : c'est vérifié dans une première version de l'essai, et c'est pourquoi tout article est un dossier. |
 | (c) champs | ✅ Dates écrites `2026-11-05`, sans heure (`type: date`, `input_timezone: utc` pour éviter un décalage d'un jour). Booléens écrits `true`/`false`. Tags en liste. `resume` et `lang` vides **omis** (`omit_empty_optional_fields`). |
 | chaîne complète | ✅ Le fichier écrit par Sveltia a été construit tel quel par Jekyll et par Hugo. L'article apparaît épinglé en tête, avec son image. |
 
@@ -167,7 +171,7 @@ Premier paragraphe écrit dans Sveltia.
    - Coût : environ 20 Mo et 450 fichiers dans `/admin/`, une étape Node dans le workflow, **pas de mise à jour automatique** (la version est fixée à 0.264.0 et se met à jour à la main ou via Dependabot), et ce mode n'est **pas pris en charge** par l'équipe Sveltia.
 2. **Requête tierce restante : `www.githubstatus.com`**, que Sveltia interroge avec le backend GitHub. Ce n'est pas un pisteur, et la requête ne part que de `/admin/`, jamais des pages publiques.
 3. **Hugo : la case « Publié » devient « Brouillon » (`draft`)**, voir le point 3.
-4. **Une note ne peut pas devenir un dossier depuis le CMS.** Il faut déplacer le fichier à la main. Une image ajoutée à une **note** irait dans le dossier global `assets/medias/`, pas à côté : les notes sont prévues sans image.
+4. **Un fichier `articles/<nom>.md` créé à la main serait invisible dans le CMS.** Il faut toujours créer un dossier `<nom>/index.md`.
 5. **Jeton.** Choisir un jeton « fine-grained » limité à ce dépôt, avec la permission *Contents: read and write*. Il est stocké dans le `localStorage` du navigateur.
 6. Le flux éditorial (relecture par pull request) n'est pas activé.
 7. Les images ne sont pas redimensionnées.

@@ -6,15 +6,18 @@ Source de mon site personnel : journal d'articles, CV et portfolio, publié sur 
 
 ## Ajouter un article
 
-Un article = un dossier, avec ses images à côté :
+Tout article est un dossier, même sans image :
 
 ```
 articles/
   swarf-os/
     index.md
     bureau.png      ← référencée dans le texte par ![légende](bureau.png)
-  menu-kde.md       ← une note simple peut rester un fichier unique
+  menu-kde/
+    index.md
 ```
+
+Le nom du dossier donne l'adresse (`/articles/swarf-os/`). Le renommer remet la date de révision à zéro.
 
 En-tête minimal :
 
