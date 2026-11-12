@@ -1,0 +1,18 @@
+# Sorties de construction
+_site/
+public/
+resources/_gen/
+.hugo_build.lock
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Dépendances
+node_modules/
+vendor/
+.bundle/
+
+# Divers
+.DS_Store
+*.swp
+.env
