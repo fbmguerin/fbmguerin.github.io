@@ -3,7 +3,6 @@ title: Débloquage d'un BIOS avec un CH341
 date: 2025-09-30
 tags:
   - CV
-  - perso
   - hardware
 resume: Comment j'ai débloqué le BIOS de l'ordinateur portable que la région m'a fourni, après en avoir perdu le mot de passe.
 draft: false
