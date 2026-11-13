@@ -25,4 +25,8 @@ Je commence à chercher sur le web, je demande à ChatGPT (pas aussi "intelligen
 # Comment j'ai résolu mon problème
 
 Après moult recherches, j'achète du matériel :
-un progrramateur CH341B et une pince crocrodile adaptée à la puce de BIOS Winbond, plus un transformateur
+un programmateur CH341B et une pince crocrodile adaptée à la puce de BIOS XMC, plus un transformateur. Et le convertisseur 1.8 V.
+
+![photo de puce flash XM25RU128C soudée à une carte-mère](puce-xmc-bios-lenovo-v14g4amn.webp "XM25RU128C")
+
+![Photo de programateur CH314B, de pincr crocodile et e transformateur pour CH314 et quelques accessoires, sur une table de travail.](matos-recu-flashage-bios-lenovo-v14g4amn.webp "mon matériel")
