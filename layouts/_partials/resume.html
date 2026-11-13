@@ -3,7 +3,8 @@
 {{- $r := .Params.resume -}}
 {{- if not $r -}}
   {{- range findRE `(?s)<p>.*?</p>` .Content -}}
-    {{- $t := trim (. | plainify | htmlUnescape) " \n" -}}
+    {{- /* sans le texte masqué « (nouvel onglet) » des liens externes */ -}}
+    {{- $t := trim (. | replaceRE `<span class="masque">.*?</span>` "" | plainify | htmlUnescape) " \n" -}}
     {{- if and (not $r) $t }}{{ $r = $t | replaceRE `\s+` " " }}{{ end -}}
   {{- end -}}
 {{- end -}}

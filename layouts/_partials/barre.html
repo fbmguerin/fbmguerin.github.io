@@ -5,11 +5,11 @@
 {{- with $avatar }}<img src="{{ . }}" alt="" width="32" height="32">{{ end -}}
 <span>{{ site.Title }}</span></a>
 <nav aria-label="Liens">
-<a class="icone" href="https://github.com/{{ site.Params.github }}" aria-label="GitHub">
+<a class="icone" href="https://github.com/{{ site.Params.github }}" target="_blank" rel="noopener" aria-label="GitHub (nouvel onglet)">
 {{- with os.FileExists "static/icons/github.svg" }}{{ $svg := readFile "static/icons/github.svg" | replaceRE `<\?xml[^>]*\?>\s*` "" }}{{ replaceRE `<svg` `<svg aria-hidden="true"` $svg 1 | safeHTML }}{{ else }}<span class="manquant" aria-hidden="true"></span>{{ end -}}
 </a>
 {{- with site.Params.favoris }}
-<a class="icone" href="{{ . }}" aria-label="Favoris">{{ partial "icone.html" "etoile" }}</a>
+<a class="icone" href="{{ . }}"{{ if (urls.Parse .).IsAbs }} target="_blank" rel="noopener" aria-label="Favoris (nouvel onglet)"{{ else }} aria-label="Favoris"{{ end }}>{{ partial "icone.html" "etoile" }}</a>
 {{- end }}
 {{- with site.Home.OutputFormats.Get "atom" }}
 <a class="icone" href="{{ .RelPermalink }}" aria-label="Flux Atom">{{ partial "icone.html" "rss" }}</a>

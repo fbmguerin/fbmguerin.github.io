@@ -1,0 +1,6 @@
+{{- /* Liens du texte des articles. Un lien externe (http/https vers un autre site)
+       s'ouvre dans un nouvel onglet, pour que le site reste ouvert ; les lecteurs
+       d'écran l'annoncent. Liens internes, ancres et mailto : comportement normal. */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $externe := and $u.IsAbs (in (slice "http" "https") $u.Scheme) (ne $u.Host (urls.Parse site.BaseURL).Host) -}}
+<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $externe }} target="_blank" rel="noopener"{{ end }}>{{ .Text }}{{ if $externe }}<span class="masque"> (nouvel onglet)</span>{{ end }}</a>
