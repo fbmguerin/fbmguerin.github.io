@@ -45,7 +45,10 @@ jobs:
       # Seulement si le secret METRICS_TOKEN existe ; un échec ne bloque pas le site,
       # qui sort alors sans calendrier. Action figée sur un commit (v3.34) : elle reçoit le jeton.
       - name: Calendrier GitHub
-        id: calendrier
+        # Cet id doit commencer par « lowlighter » : metrics le lit (github.action) pour savoir
+        # s'il est la version officielle et télécharger son image Docker toute prête ;
+        # sinon il se croit un fork et la recompile, ce qui échoue.
+        id: lowlighter_metrics
         if: env.METRICS_TOKEN != ''
         continue-on-error: true
         uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
@@ -60,10 +63,14 @@ jobs:
           config_timezone: Europe/Paris
 
       - name: Ranger le calendrier
-        if: steps.calendrier.outcome == 'success'
+        if: steps.lowlighter_metrics.outcome == 'success'
         run: |
           mkdir -p assets/github
           sudo cat /metrics_renders/calendrier.svg > assets/github/calendrier.svg
+
+      - name: Signaler l'absence du calendrier
+        if: steps.lowlighter_metrics.outcome == 'failure'
+        run: echo "::warning title=Calendrier GitHub::Non rendu (voir l'étape « Calendrier GitHub ») ; le site sort sans calendrier."
 
       - name: Installer Hugo
         run: |
