@@ -344,7 +344,14 @@ tbody tr:last-child td { border-bottom: 0; }
 }
 
 /* ---- Pied de page (vide, sans filet) ---- */
-.pied { min-height: 48px; }
+.pied {
+  min-height: 48px;
+
+  /* Crédit du thème (copies du site seulement) ; 24 px libres en bas pour le geste vers /admin/ */
+  & p { margin: 0; padding: 12px 0 24px; color: var(--tx3); font-size: 14px; }
+  & a { text-decoration-color: var(--line); }
+  & a:hover { color: var(--ac); }
+}
 
 /* ---- Mobile : un seul point de rupture ---- */
 @media (max-width: 600px) {
@@ -353,7 +360,7 @@ tbody tr:last-child td { border-bottom: 0; }
   main h1 { font-size: 32px; }
   .barre .conteneur { gap: 8px; }
   .barre nav { gap: 0; margin-right: -13px; }   /* (44 − 18) / 2 */
-  .nom, .retour, .tag, .voisins a {
+  .nom, .retour, .tag, .voisins a, .pied a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
