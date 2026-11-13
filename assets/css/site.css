@@ -36,6 +36,7 @@
   --t7: light-dark(#816612, #d9ac26); /* ocre */
 
   --barre: 60px;
+  --gouttiere: 12px;   /* entre cartes, entre tags, et des tags à la grille */
   scroll-padding-top: var(--barre);
 
   &:has(> head > meta[name="color-scheme"][content="dark"]) { color-scheme: dark; }
@@ -153,7 +154,7 @@ main { padding-block: 32px 48px; }
 .grille {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
-  gap: 12px;
+  gap: var(--gouttiere);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -164,8 +165,8 @@ main { padding-block: 32px 48px; }
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;   /* = gap de la grille */
+  gap: var(--gouttiere);
+  margin-bottom: var(--gouttiere);
 
   & button {
     min-height: 40px;
