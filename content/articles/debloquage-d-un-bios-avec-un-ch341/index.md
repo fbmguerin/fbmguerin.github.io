@@ -6,7 +6,7 @@ tags:
   - perso
   - hardware
 resume: Comment j'ai débloqué le BIOS de l'ordinateur portable que la région m'a fourni, après en avoir perdu le mot de passe.
-draft: true
+draft: false
 epingle: false
 ---
 
