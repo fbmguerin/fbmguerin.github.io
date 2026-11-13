@@ -1,0 +1,16 @@
+{{- /* Calendrier des contributions GitHub de l'année, en pied de page.
+       assets/github/calendrier.svg est rendu par lowlighter/metrics pendant le build
+       (.github/workflows/pages.yml) ; absent (pas de secret METRICS_TOKEN, échec, build
+       local) → rien. On n'en garde que la grille, insérée dans la page : les couleurs de
+       GitHub deviennent des niveaux (data-n) que site.css peint aux couleurs du thème. */ -}}
+{{- with resources.Get "github/calendrier.svg" -}}
+  {{- with findRE `(?s)<svg class="calendar".*?</svg>` .Content 1 -}}
+    {{- $g := index . 0 -}}
+    {{- $g = replace $g `<svg class="calendar"` `<svg class="calendar" aria-hidden="true" focusable="false"` 1 -}}
+    {{- $g = replaceRE `\s(rx|ry)="[^"]*"` "" $g -}}
+    {{- range $n, $c := slice "ebedf0" "9be9a8" "40c463" "30a14e" "216e39" -}}
+      {{- $g = replaceRE (printf `(?i)fill="#%s"` $c) (printf `data-n="%d"` $n) $g -}}
+    {{- end }}
+<div class="conteneur"><a class="calendrier" href="https://github.com/{{ site.Params.github }}" aria-label="Mes contributions GitHub de l'année">{{ $g | safeHTML }}</a></div>
+  {{- end -}}
+{{- end -}}

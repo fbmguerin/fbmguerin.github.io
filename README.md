@@ -20,6 +20,18 @@ Rien à installer : Sveltia est chargé depuis unpkg, en version figée dans `st
 2. Ouvrez `https://<votre-compte>.github.io/admin/` (ou cliquez cinq fois vite tout en bas d'une page), puis *Sign in with Token*.
 3. Chaque enregistrement est un commit sur `main`. Les images sont réduites en WebP et rangées dans le dossier de l'article.
 
+## Calendrier GitHub (pied de page)
+
+Le pied de page affiche le calendrier de vos contributions GitHub de l'année. Il est rendu à chaque build par [lowlighter/metrics](https://github.com/lowlighter/metrics) (plugin *calendar*), puis inséré dans la page aux couleurs du thème. Aucun appel à un service tiers depuis le navigateur des visiteurs.
+
+Facultatif : sans le secret ci-dessous, le site se construit normalement, sans calendrier.
+
+1. Créez un jeton **classique**, sans aucune case cochée (lecture des données publiques seulement) : *Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token (classic)*.
+2. Dans ce dépôt : *Settings → Secrets and variables → Actions → New repository secret*, nom `METRICS_TOKEN`, valeur : le jeton.
+3. Relancez le workflow *Pages* (*Actions → Pages → Run workflow*).
+
+Pour compter aussi vos contributions privées (en nombre seulement), cochez *Include private contributions on my profile* dans *Settings → Public profile*.
+
 ## Écrire
 
 Un article = un dossier : `content/articles/<nom>/index.md`, plus ses images. Adresse : `/articles/<nom>/`.

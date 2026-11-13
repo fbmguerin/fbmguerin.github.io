@@ -35,6 +35,13 @@
   --t6: light-dark(#c41c7e, #e670b5); /* rose */
   --t7: light-dark(#816612, #d9ac26); /* ocre */
 
+  /* Calendrier GitHub du pied de page : de « aucune contribution » (= --card) au vert de --t1 */
+  --c0: var(--card);
+  --c1: light-dark(#b7e1c1, #1f4d2e);
+  --c2: light-dark(#6cc287, #1d7a3e);
+  --c3: light-dark(#2f9a55, #22aa51);
+  --c4: light-dark(#117834, #26d962);
+
   --barre: 60px;
   --gouttiere: 12px;   /* entre cartes, entre tags, et des tags à la grille */
   scroll-padding-top: var(--barre);
@@ -348,6 +355,18 @@ tbody tr:last-child td { border-bottom: 0; }
 .pied {
   min-height: 48px;
 
+  /* Calendrier GitHub (partials/calendrier.html), s'il a été rendu au build */
+  & .calendrier { display: block; padding-top: 24px; color: var(--tx3); }
+  & .calendrier:last-child { padding-bottom: 24px; }
+  & .calendrier:hover { color: var(--ac); }
+  & .calendrier svg { display: block; width: 100%; height: auto; }
+  & .calendrier text { fill: currentColor; font: 12px system-ui, sans-serif; }
+  & [data-n="0"] { fill: var(--c0); }
+  & [data-n="1"] { fill: var(--c1); }
+  & [data-n="2"] { fill: var(--c2); }
+  & [data-n="3"] { fill: var(--c3); }
+  & [data-n="4"] { fill: var(--c4); }
+
   /* Crédit du thème (copies du site seulement) ; 24 px libres en bas pour le geste vers /admin/ */
   & p { margin: 0; padding: 12px 0 24px; color: var(--tx3); font-size: 14px; }
   & a { text-decoration-color: var(--line); }
@@ -367,6 +386,7 @@ tbody tr:last-child td { border-bottom: 0; }
     min-height: 44px;
   }
   .retour { margin-bottom: 12px; }
+  .calendrier text { display: none; }   /* année illisible à cette échelle */
   .nom, .tag { min-width: 44px; }
   .tag { justify-content: center; }
   /* Cinq boutons de 44 px : le nom ne tient plus à côté, l'avatar seul le remplace

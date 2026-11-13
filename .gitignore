@@ -3,6 +3,8 @@
 /public/
 /resources/_gen/
 .hugo_build.lock
+# Calendrier GitHub, rendu au build (pages.yml)
+/assets/github/
 
 # Divers
 .DS_Store
