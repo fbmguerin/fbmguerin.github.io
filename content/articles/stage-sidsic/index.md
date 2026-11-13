@@ -4,6 +4,7 @@ date: 2026-10-16
 tags:
   - stage
   - linux
+  - cv
 draft: false
 epingle: false
 ---

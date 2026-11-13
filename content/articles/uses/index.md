@@ -3,7 +3,6 @@ title: Ce que j’utilise
 date: 2026-11-12
 tags:
   - perso
-  - linux
 resume: Ce que j'utilise au quotidien. Censé être mis à jour quand ça change. Faut que je mette des photos.
 draft: false
 epingle: false

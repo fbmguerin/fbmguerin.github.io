@@ -1,7 +1,11 @@
 ---
 title: swarf-os
 date: 2026-11-01
-tags: [linux]
+tags:
+  - linux
+  - cv
+draft: false
+epingle: false
 ---
 
 Mon système d'exploitation personnel, que j'utilise au quotidien : une image Fedora bootc avec KDE Plasma (Wayland), construite à partir d'une liste blanche de paquets officiels et publiée sur le registre ghcr.io.
