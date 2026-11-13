@@ -1,16 +1,31 @@
-{{- /* Calendrier des contributions GitHub de l'année, en pied de page.
-       assets/github/calendrier.svg est rendu par lowlighter/metrics pendant le build
-       (.github/workflows/pages.yml) ; absent (pas de secret METRICS_TOKEN, échec, build
-       local) → rien. On n'en garde que la grille, insérée dans la page : les couleurs de
-       GitHub deviennent des niveaux (data-n) que site.css peint aux couleurs du thème. */ -}}
-{{- with resources.Get "github/calendrier.svg" -}}
-  {{- with findRE `(?s)<svg class="calendar".*?</svg>` .Content 1 -}}
-    {{- $g := index . 0 -}}
-    {{- $g = replace $g `<svg class="calendar"` `<svg class="calendar" aria-hidden="true" focusable="false"` 1 -}}
-    {{- $g = replaceRE `\s(rx|ry)="[^"]*"` "" $g -}}
-    {{- range $n, $c := slice "ebedf0" "9be9a8" "40c463" "30a14e" "216e39" -}}
-      {{- $g = replaceRE (printf `(?i)fill="#%s"` $c) (printf `data-n="%d"` $n) $g -}}
-    {{- end }}
-<div class="conteneur"><a class="calendrier" href="https://github.com/{{ site.Params.github }}" aria-label="Mes contributions GitHub de l'année">{{ $g | safeHTML }}</a></div>
+{{- /* Calendrier des contributions GitHub, en pied de page : les 53 dernières semaines
+       (12 mois glissants), la semaine en cours à droite. Une colonne par semaine,
+       du dimanche au samedi comme sur GitHub.
+       assets/github/calendrier.json : données brutes de lowlighter/metrics (plugin calendar,
+       année en cours et précédente), produites au build (.github/workflows/pages.yml).
+       Absent (pas de secret METRICS_TOKEN, échec, build local) → rien.
+       Niveau de chaque case (data-n, 0 à 4) : tiré de la couleur que GitHub attribue au
+       jour ; site.css le peint aux couleurs du thème. Sur écran étroit, les semaines les
+       plus anciennes sortent par la gauche (site.css). */ -}}
+{{- with resources.Get "github/calendrier.json" -}}
+  {{- $annees := (. | transform.Unmarshal).plugins.calendar.years | default slice -}}
+  {{- $jours := slice -}}
+  {{- range sort $annees "year" -}}
+    {{- range .weeks }}{{ range .contributionDays }}{{ $jours = $jours | append . }}{{ end }}{{ end -}}
+  {{- end -}}
+  {{- with $jours -}}
+    {{- $niveaux := dict "#ebedf0" 0 "#9be9a8" 1 "#40c463" 2 "#30a14e" 3 "#216e39" 4 -}}
+    {{- $semaine := dict "Sunday" 0 "Monday" 1 "Tuesday" 2 "Wednesday" 3 "Thursday" 4 "Friday" 5 "Saturday" 6 -}}
+    {{- /* 52 semaines pleines + la semaine en cours jusqu'à aujourd'hui : commence un dimanche */ -}}
+    {{- $n := add 365 (index $semaine ((time.AsTime (index (last 1 .) 0).date).Format "Monday")) -}}
+    {{- $jours = last (math.Min $n (len .) | int) . }}
+<div class="conteneur"><a class="calendrier" href="https://github.com/{{ site.Params.github }}" aria-label="Mes contributions GitHub des douze derniers mois"><span class="cal" aria-hidden="true">
+    {{- $premier := (time.AsTime (index $jours 0).date).Format "Monday" -}}
+    {{- range $i, $j := $jours -}}
+      {{- $niv := index $niveaux (lower $j.color) -}}
+      {{- if not $niv }}{{ $niv = cond (gt (int $j.contributionCount) 0) 2 0 }}{{ end -}}
+      <span data-n="{{ $niv }}" title="{{ $j.date }} : {{ $j.contributionCount }}"{{ if and (eq $i 0) (ne $premier "Sunday") }} style="grid-row-start: {{ add 1 (index $semaine $premier) }}"{{ end }}></span>
+    {{- end -}}
+</span></a></div>
   {{- end -}}
 {{- end -}}
