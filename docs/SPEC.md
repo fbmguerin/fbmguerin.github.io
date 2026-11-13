@@ -92,7 +92,7 @@ En-tête YAML. Clés sans accents (Hugo met les clés en minuscules).
 ### Accueil (`/`)
 De haut en bas, dans un conteneur de 1040 px maximum, marges latérales de 24 px :
 1. **Rangée de tags** : un bouton « tout » puis un bouton par tag, triés par nombre d'articles décroissant, puis ordre alphabétique français. Le nombre d'articles reste affiché en petit dans chaque bouton, « tout » compris (nombre total d'articles). Les boutons passent sur plusieurs lignes, y compris sur mobile (jamais de défilement horizontal).
-2. **Grille de cartes** : `repeat(auto-fill, minmax(280px, 1fr))`, `gap: 12px`. Les **cartes épinglées** (zéro à deux) en sont les premières cartes, dans la même grille. Ce sont des cartes ordinaires, **sans aucun marquage particulier** : pas de punaise, pas de bandeau, pas de libellé, pas de couleur propre. Elles **restent visibles quel que soit le tag filtré**.
+2. **Grille de cartes** : `repeat(auto-fill, minmax(280px, 1fr))`, `gap: 12px` (`--gouttiere`, le même écart sépare les boutons de tags entre eux et de la grille). Les **cartes épinglées** (zéro à deux) en sont les premières cartes, dans la même grille. Ce sont des cartes ordinaires, **sans aucun marquage particulier** : pas de punaise, pas de bandeau, pas de libellé, pas de couleur propre. Elles **restent visibles quel que soit le tag filtré**.
 
 Pas de présentation de l'auteur, pas de titre « Journal », pas de slogan.
 
