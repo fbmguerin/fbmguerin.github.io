@@ -169,7 +169,7 @@ main { padding-block: 32px 48px; }
   & > li { display: grid; min-width: 0; }
   & > li[hidden] { display: none; }
 }
-.tags {
+.tags, .annees {
   display: flex;
   flex-wrap: wrap;
   gap: var(--gouttiere);
@@ -193,7 +193,7 @@ main { padding-block: 32px 48px; }
   }
   & .nb { margin-left: 4px; font-size: 12px; }
 }
-.tags[hidden] { display: none; }
+.tags[hidden], .annees[hidden] { display: none; }
 
 /* ---- Carte ---- */
 .carte {
@@ -355,17 +355,36 @@ tbody tr:last-child td { border-bottom: 0; }
 .pied {
   min-height: 48px;
 
-  /* Calendrier GitHub (partials/calendrier.html), s'il a été rendu au build */
-  & .calendrier { display: block; padding-top: 24px; color: var(--tx3); }
+  /* Calendrier GitHub (partials/calendrier.html), s'il a été rendu au build.
+     53 colonnes qui remplissent la largeur ; cases d'au moins 10 px : sur écran
+     étroit, seules les semaines les plus récentes qui tiennent en entier restent,
+     calées à droite (largeur arrondie à un nombre entier de colonnes). */
+  & .calendrier { container-type: inline-size; padding-top: 24px; }
   & .calendrier:last-child { padding-bottom: 24px; }
-  & .calendrier:hover { color: var(--ac); }
-  & .calendrier svg { display: block; width: 100%; height: auto; }
-  & .calendrier text { fill: currentColor; font: 12px system-ui, sans-serif; }
-  & [data-n="0"] { fill: var(--c0); }
-  & [data-n="1"] { fill: var(--c1); }
-  & [data-n="2"] { fill: var(--c2); }
-  & [data-n="3"] { fill: var(--c3); }
-  & [data-n="4"] { fill: var(--c4); }
+  & .cal {
+    --case: max(10px, (100cqi - 52 * 3px) / 53);
+    display: flex;
+    justify-content: flex-end;
+    width: calc(round(down, 100cqi + 3.5px, var(--case) + 3px) - 3px);   /* +0,5 px : marge d'arrondi */
+    margin-left: auto;
+    overflow: hidden;
+  }
+  & .cal[hidden] { display: none; }
+  & .jours {
+    display: grid;
+    flex: none;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(7, var(--case));
+    grid-auto-columns: var(--case);
+    gap: 3px;
+  }
+  /* Case vide : avant les données, ou jour à venir */
+  & .jours > :not([data-n]) { outline: 1px solid var(--card); outline-offset: -1px; }
+  & [data-n="0"] { background: var(--c0); }
+  & [data-n="1"] { background: var(--c1); }
+  & [data-n="2"] { background: var(--c2); }
+  & [data-n="3"] { background: var(--c3); }
+  & [data-n="4"] { background: var(--c4); }
 
   /* Crédit du thème (copies du site seulement) ; 24 px libres en bas pour le geste vers /admin/ */
   & p { margin: 0; padding: 12px 0 24px; color: var(--tx3); font-size: 14px; }
@@ -376,7 +395,7 @@ tbody tr:last-child td { border-bottom: 0; }
 /* ---- Mobile : un seul point de rupture ---- */
 @media (max-width: 600px) {
   .icone { width: 44px; height: 44px; }
-  .tags button { min-height: 44px; }
+  .tags button, .annees button { min-height: 44px; }
   main h1 { font-size: 32px; }
   .barre .conteneur { gap: 8px; }
   .barre nav { gap: 0; margin-right: -13px; }   /* (44 − 18) / 2 */
@@ -386,7 +405,6 @@ tbody tr:last-child td { border-bottom: 0; }
     min-height: 44px;
   }
   .retour { margin-bottom: 12px; }
-  .calendrier text { display: none; }   /* année illisible à cette échelle */
   .nom, .tag { min-width: 44px; }
   .tag { justify-content: center; }
   /* Cinq boutons de 44 px : le nom ne tient plus à côté, l'avatar seul le remplace

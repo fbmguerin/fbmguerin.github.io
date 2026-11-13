@@ -22,7 +22,7 @@ Rien à installer : Sveltia est chargé depuis unpkg, en version figée dans `st
 
 ## Calendrier GitHub (pied de page)
 
-Le pied de page affiche le calendrier de vos contributions GitHub de l'année. Il est rendu à chaque build par [lowlighter/metrics](https://github.com/lowlighter/metrics) (plugin *calendar*), puis inséré dans la page aux couleurs du thème. Aucun appel à un service tiers depuis le navigateur des visiteurs.
+Le pied de page affiche le calendrier de vos contributions GitHub : les douze derniers mois, et un bouton par année. Les données sont récupérées à chaque build par [lowlighter/metrics](https://github.com/lowlighter/metrics) (plugin *calendar*, sortie JSON), puis la grille est construite en HTML aux couleurs du thème. Aucun appel à un service tiers depuis le navigateur des visiteurs.
 
 Facultatif : sans le secret ci-dessous, le site se construit normalement, sans calendrier.
 

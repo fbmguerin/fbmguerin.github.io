@@ -55,18 +55,19 @@ jobs:
         with:
           token: ${{ env.METRICS_TOKEN }}
           user: ${{ github.repository_owner }}
-          filename: calendrier.svg
+          filename: calendrier.json
+          config_output: json
           output_action: none
           base: ""
           plugin_calendar: yes
-          plugin_calendar_limit: 1
+          plugin_calendar_limit: -1 # depuis l'année précédant l'inscription (12 mois glissants complets)
           config_timezone: Europe/Paris
 
       - name: Ranger le calendrier
         if: steps.lowlighter_metrics.outcome == 'success'
         run: |
           mkdir -p assets/github
-          sudo cat /metrics_renders/calendrier.svg > assets/github/calendrier.svg
+          sudo cat /metrics_renders/calendrier.json > assets/github/calendrier.json
 
       - name: Signaler l'absence du calendrier
         if: steps.lowlighter_metrics.outcome == 'failure'
