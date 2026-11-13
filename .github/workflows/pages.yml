@@ -31,6 +31,8 @@ jobs:
     # Garde-fou : workflow_dispatch peut viser n'importe quelle branche.
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    env:
+      METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -38,6 +40,30 @@ jobs:
 
       - id: pages
         uses: actions/configure-pages@v6
+
+      # Calendrier des contributions GitHub, en pied de page (README, « Calendrier GitHub »).
+      # Seulement si le secret METRICS_TOKEN existe ; un échec ne bloque pas le site,
+      # qui sort alors sans calendrier. Action figée sur un commit (v3.34) : elle reçoit le jeton.
+      - name: Calendrier GitHub
+        id: calendrier
+        if: env.METRICS_TOKEN != ''
+        continue-on-error: true
+        uses: lowlighter/metrics@65836723097537a54cd8eb90f61839426b4266b6 # v3.34
+        with:
+          token: ${{ env.METRICS_TOKEN }}
+          user: ${{ github.repository_owner }}
+          filename: calendrier.svg
+          output_action: none
+          base: ""
+          plugin_calendar: yes
+          plugin_calendar_limit: 1
+          config_timezone: Europe/Paris
+
+      - name: Ranger le calendrier
+        if: steps.calendrier.outcome == 'success'
+        run: |
+          mkdir -p assets/github
+          sudo cat /metrics_renders/calendrier.svg > assets/github/calendrier.svg
 
       - name: Installer Hugo
         run: |

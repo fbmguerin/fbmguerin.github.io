@@ -106,7 +106,7 @@ Un seul lien englobant (`<a>`), de haut en bas : titre (18 px/1,35, graisse 500)
 - Ligne d'informations sous le titre : `AAAA-MM`, puis « Révisé le JJ/MM/AAAA » **uniquement si** la dernière révision tombe un autre jour que la publication, puis les tags (liens vers `/#<tag>`).
 - Corps : voir §7.
 - En bas : section « Même tag » (cinq articles au plus, hors l'article courant, du plus récent au plus ancien, rien si aucun), puis pied de page.
-- Pied de page, sur toutes les pages : **vide**, sans lien ni filet (simple espace en bas de page).
+- Pied de page, sur toutes les pages : sans filet. Seul contenu : le **calendrier des contributions GitHub** de l'année (grille plate, carrés sans arrondi, couleurs `--c0` à `--c4`), lien vers le profil GitHub ; il n'apparaît que si le build a pu le rendre (secret `METRICS_TOKEN`, voir README).
 
 ### 404
 Phrase courte et lien vers l'accueil.
