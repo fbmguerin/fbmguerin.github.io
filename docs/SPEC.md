@@ -106,7 +106,7 @@ Un seul lien englobant (`<a>`), de haut en bas : titre (18 px/1,35, graisse 500)
 - Ligne d'informations sous le titre : `AAAA-MM`, puis « Révisé le JJ/MM/AAAA » **uniquement si** la dernière révision tombe un autre jour que la publication, puis les tags (liens vers `/#<tag>`).
 - Corps : voir §7.
 - En bas : section « Même tag » (cinq articles au plus, hors l'article courant, du plus récent au plus ancien, rien si aucun), puis pied de page.
-- Pied de page, sur toutes les pages : sans filet. Seul contenu : le **calendrier des contributions GitHub** des 53 dernières semaines, semaine en cours à droite (grille plate, carrés sans arrondi, couleurs `--c0` à `--c4` ; 53 colonnes sur toute la largeur, cases d'au moins 10 px, les semaines anciennes coupées à gauche sur écran étroit), lien vers le profil GitHub ; il n'apparaît que si le build a pu le rendre (secret `METRICS_TOKEN`, voir README).
+- Pied de page, sur toutes les pages : sans filet. Seul contenu : le **calendrier des contributions GitHub** (grille plate, carrés sans arrondi, couleurs `--c0` à `--c4`, cases vides ou à venir en simple contour), sous une rangée de boutons au style des tags : « 12 mois » (par défaut : 53 dernières semaines, semaine en cours à droite), puis chaque année civile ayant au moins une contribution (l'année en cours toujours). 53 colonnes sur toute la largeur ; cases d'au moins 10 px, semaines anciennes coupées à gauche sur écran étroit. Sans JavaScript : pas de boutons, « 12 mois » seul. N'apparaît que si le build a pu récupérer les données (secret `METRICS_TOKEN`, voir README).
 
 ### 404
 Phrase courte et lien vers l'accueil.

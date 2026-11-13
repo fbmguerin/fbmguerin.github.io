@@ -60,7 +60,7 @@ jobs:
           output_action: none
           base: ""
           plugin_calendar: yes
-          plugin_calendar_limit: 2 # année en cours et précédente : 12 mois glissants
+          plugin_calendar_limit: -1 # depuis l'année précédant l'inscription (12 mois glissants complets)
           config_timezone: Europe/Paris
 
       - name: Ranger le calendrier

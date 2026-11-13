@@ -1,12 +1,15 @@
-{{- /* Calendrier des contributions GitHub, en pied de page : les 53 dernières semaines
-       (12 mois glissants), la semaine en cours à droite. Une colonne par semaine,
-       du dimanche au samedi comme sur GitHub.
+{{- /* Calendrier des contributions GitHub, en pied de page.
        assets/github/calendrier.json : données brutes de lowlighter/metrics (plugin calendar,
-       année en cours et précédente), produites au build (.github/workflows/pages.yml).
+       depuis l'année précédant l'inscription), produites au build (.github/workflows/pages.yml).
        Absent (pas de secret METRICS_TOKEN, échec, build local) → rien.
-       Niveau de chaque case (data-n, 0 à 4) : tiré de la couleur que GitHub attribue au
-       jour ; site.css le peint aux couleurs du thème. Sur écran étroit, les semaines les
-       plus anciennes sortent par la gauche (site.css). */ -}}
+
+       Un panneau par période : « 12 mois » (les 53 dernières semaines, semaine en cours à
+       droite), puis chaque année civile qui compte au moins une contribution, l'année en
+       cours toujours. Une rangée de boutons choisit le panneau (calendrier.js) ; sans
+       JavaScript, la rangée reste masquée et seul « 12 mois » s'affiche.
+       Une colonne par semaine, du dimanche au samedi comme sur GitHub. Cases vides (avant
+       les données, ou jours à venir de l'année en cours) : data-n absent. Niveau (data-n,
+       0 à 4) tiré de la couleur que GitHub attribue au jour ; site.css le peint. */ -}}
 {{- with resources.Get "github/calendrier.json" -}}
   {{- $annees := (. | transform.Unmarshal).plugins.calendar.years | default slice -}}
   {{- $jours := slice -}}
@@ -14,18 +17,55 @@
     {{- range .weeks }}{{ range .contributionDays }}{{ $jours = $jours | append . }}{{ end }}{{ end -}}
   {{- end -}}
   {{- with $jours -}}
-    {{- $niveaux := dict "#ebedf0" 0 "#9be9a8" 1 "#40c463" 2 "#30a14e" 3 "#216e39" 4 -}}
     {{- $semaine := dict "Sunday" 0 "Monday" 1 "Tuesday" 2 "Wednesday" 3 "Thursday" 4 "Friday" 5 "Saturday" 6 -}}
-    {{- /* 52 semaines pleines + la semaine en cours jusqu'à aujourd'hui : commence un dimanche */ -}}
-    {{- $n := add 365 (index $semaine ((time.AsTime (index (last 1 .) 0).date).Format "Monday")) -}}
-    {{- $jours = last (math.Min $n (len .) | int) . }}
-<div class="conteneur"><a class="calendrier" href="https://github.com/{{ site.Params.github }}" aria-label="Mes contributions GitHub des douze derniers mois"><span class="cal" aria-hidden="true">
-    {{- $premier := (time.AsTime (index $jours 0).date).Format "Monday" -}}
-    {{- range $i, $j := $jours -}}
-      {{- $niv := index $niveaux (lower $j.color) -}}
+    {{- $dernier := time.AsTime (index (last 1 .) 0).date -}}
+
+    {{- /* Panneaux : liste de dict titre / libellé / cases (jours, ou dict vides pour le remplissage) / décalage */ -}}
+    {{- $panneaux := slice -}}
+
+    {{- /* 12 mois : 52 semaines pleines + la semaine en cours, commence un dimanche */ -}}
+    {{- $n := add 365 (index $semaine ($dernier.Format "Monday")) -}}
+    {{- $recents := last (math.Min $n (len .) | int) . -}}
+    {{- $cases := slice -}}
+    {{- if gt $n (len $recents) }}{{ range seq (sub $n (len $recents)) }}{{ $cases = $cases | append dict }}{{ end }}{{ end -}}
+    {{- $cases = $cases | append $recents -}}
+    {{- $panneaux = $panneaux | append (dict "cle" "12-mois" "libelle" "12 mois" "titre" "les douze derniers mois" "cases" $cases "decalage" 0) -}}
+
+    {{- /* Années civiles, de la plus récente à la plus ancienne */ -}}
+    {{- range sort $annees "year" "desc" -}}
+      {{- $an := int .year -}}
+      {{- $jan := time.AsTime (printf "%d-01-01" $an) -}}
+      {{- $duree := cond (eq (mod $an 4) 0) (cond (and (eq (mod $an 100) 0) (ne (mod $an 400) 0)) 365 366) 365 -}}
+      {{- $cases := slice -}}
+      {{- $total := 0 -}}
+      {{- range .weeks }}{{ range .contributionDays }}{{ $cases = $cases | append . }}{{ $total = add $total (int .contributionCount) }}{{ end }}{{ end -}}
+      {{- if or $total (eq $an $dernier.Year) -}}
+        {{- if gt $duree (len $cases) }}{{ range seq (sub $duree (len $cases)) }}{{ $cases = $cases | append dict }}{{ end }}{{ end -}}
+        {{- $panneaux = $panneaux | append (dict "cle" (string $an) "libelle" (string $an) "titre" (string $an) "cases" $cases "decalage" (index $semaine ($jan.Format "Monday"))) -}}
+      {{- end -}}
+    {{- end }}
+<div class="conteneur calendrier">
+{{- if gt (len $panneaux) 1 }}
+<div class="annees" aria-label="Période du calendrier GitHub" role="group" hidden>
+  {{- range $i, $p := $panneaux }}
+<button type="button" data-cal="{{ $p.cle }}" aria-pressed="{{ eq $i 0 }}">{{ $p.libelle }}</button>
+  {{- end }}
+</div>
+{{- end }}
+{{- range $i, $p := $panneaux }}
+<div class="cal" data-cal="{{ $p.cle }}" role="img" aria-label="Contributions GitHub : {{ $p.titre }}"{{ if $i }} hidden{{ end }}><span class="jours">
+  {{- range $k, $j := $p.cases -}}
+    {{- $attrs := "" -}}
+    {{- with $j.date -}}
+      {{- $niv := index (dict "#ebedf0" 0 "#9be9a8" 1 "#40c463" 2 "#30a14e" 3 "#216e39" 4) (lower $j.color) -}}
       {{- if not $niv }}{{ $niv = cond (gt (int $j.contributionCount) 0) 2 0 }}{{ end -}}
-      <span data-n="{{ $niv }}" title="{{ $j.date }} : {{ $j.contributionCount }}"{{ if and (eq $i 0) (ne $premier "Sunday") }} style="grid-row-start: {{ add 1 (index $semaine $premier) }}"{{ end }}></span>
+      {{- $attrs = printf ` data-n="%d" title="%s : %d"` (int $niv) . (int $j.contributionCount) -}}
     {{- end -}}
-</span></a></div>
+    {{- if and (eq $k 0) $p.decalage }}{{ $attrs = printf `%s style="grid-row-start: %d"` $attrs (add 1 $p.decalage) }}{{ end -}}
+    <span{{ $attrs | safeHTMLAttr }}></span>
+  {{- end -}}
+</span></div>
+{{- end }}
+</div>
   {{- end -}}
 {{- end -}}
