@@ -1,7 +1,9 @@
 ---
 title: Je cherche un stage du 18 janvier au 19 février 2027
 date: 2026-11-12
-tags: [recherche]
+tags:
+  - recherche stage
+draft: false
 epingle: true
 epingle_jusqu_au: 2027-02-19
 ---
