@@ -1,5 +1,5 @@
 ---
-title: Déboquage d'un BIOS avec bios-pw
+title: Déblocage d'un BIOS avec bios-pw
 date: 2026-08-15
 tags:
   - cv
