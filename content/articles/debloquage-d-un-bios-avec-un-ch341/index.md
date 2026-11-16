@@ -1,5 +1,5 @@
 ---
-title: Débloquage d'un BIOS avec un CH341
+title: Déblocage d'un BIOS avec un CH341
 date: 2025-09-30
 tags:
   - CV
