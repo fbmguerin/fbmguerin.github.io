@@ -1,5 +1,5 @@
 ---
-title: swarf-os
+title: Swarf-os
 date: 2026-11-01
 tags:
   - linux
@@ -8,7 +8,11 @@ draft: false
 epingle: false
 ---
 
-Mon système d'exploitation personnel, que j'utilise au quotidien : une image Fedora bootc avec KDE Plasma (Wayland), construite à partir d'une liste blanche de paquets officiels et publiée sur le registre ghcr.io.
+Mon daily-driver : une image Fedora bootc avec KDE Plasma (Wayland), construite à partir d'une liste blanche de paquets et publiée sur le registre ghcr.io.
+
+## Pourquoi
+
+## Choix des outils
 
 ## Construction
 
@@ -24,9 +28,13 @@ Sources : [github.com/swarf-os/image](https://github.com/swarf-os/image).
 
 ## Rendu
 
-Section de test, à supprimer : elle vérifie qu'aucun élément ne fait déborder la page à 360 px.
+Rien de spécial, pas de ricing, c'est juste Fedora Kinoite, avec des paquets en moins, et quelques préréglages personnalisés (effets de kwin, plasmoïde de gestionnaire de tâches, etc. ).
 
-![Rectangle gris qui tient lieu de capture du bureau](bureau.svg "Capture provisoire du bureau")
+Je vais probablement aller plus loin dans la personnalisation de KDE, je pense qu'un menu d'applications plus épuré, façon ChromeOS ou Pantheon, serait bien.
+
+![](Capture%20d%27%C3%A9cran_20261118_083410.webp)
+
+![](Capture%20d%27%C3%A9cran_20261118_084050.webp)
 
 ```bash
 podman run --rm -it --privileged --pull=newer --security-opt label=type:unconfined_t -v ./sortie:/output -v /var/lib/containers/storage:/var/lib/containers/storage quay.io/centos-bootc/bootc-image-builder:latest --type iso ghcr.io/swarf-os/image:latest
