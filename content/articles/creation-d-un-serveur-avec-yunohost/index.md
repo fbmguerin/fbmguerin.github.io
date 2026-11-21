@@ -4,7 +4,7 @@ date: 2025-11-16
 tags:
   - linux
   - cv
-draft: true
+draft: false
 epingle: false
 epingle_jusqu_au: 2025-06-16
 ---
